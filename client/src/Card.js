@@ -41,19 +41,13 @@ const InfoCard = () => {
         </div>
         <div className='interactions'>
           <div className='chats'>
-              {/* <div className='chat current'> hi</div>
-              <div className='chat current'> ing System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Platform;
-using Comm.Net.Views;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.DTO;
-using MessageBox.</div> */}
+              <div className='chat current'> hi</div>
+              <div className='chat sender'> ing SystemeBox.</div>
+              <div className='chat current'> ing System.ThreadinageBox.</div>
               {currentUser &&
                 chatHistory[currentUser].map((history, key) => {
                   return (
-                    <div key={key} className={`chat ${history.sender === currentUser ? "current" : ""}`}>
+                    <div key={key} className={`chat ${history.sender === currentUser ? "current" : "sender"}`}>
                       {history.msg}
                     </div>
                   )
