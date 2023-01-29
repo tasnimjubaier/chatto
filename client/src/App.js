@@ -13,11 +13,20 @@ function App() {
   const handleLogin = (user) => {
     setUser(user)
   }
+  function onSignIn(googleUser) {
+    // Get the Google user's profile information
+    var profile = googleUser.getBasicProfile();
+  
+    // Use the profile information to sign the user in to your application
+    // signIn(profile.getEmail(), profile.getName());
+  }
+  
 
   return (
     <div className="App">
       {user ? 
         <InfoCard /> : 
+        // <div className="g-signin2" data-onsuccess="onSignIn"></div>
         <Login loggedIn={handleLogin}/>
       }
     </div>

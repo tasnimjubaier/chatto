@@ -11,7 +11,7 @@ const Login = ({loggedIn}) => {
   }
   
   const handleKeyDown = (e) => {
-    if(e.key == 'Enter') {
+    if(e.key === 'Enter') {
       loggedIn(user)
     }
   }
