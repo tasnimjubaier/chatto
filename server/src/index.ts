@@ -54,12 +54,15 @@ const server = new ApolloServer({
 
 await server.start();
 
+// Set up our Express middleware to handle CORS, body parsing,
+// and our expressMiddleware function.
+
 app.use("/holdit", (req, res) => {
   res.end("hold it.")
 })
 
 app.use(
-  '/graphql',
+  '/',
   cors<cors.CorsRequest>(),
   bodyParser.json(),
   // expressMiddleware accepts the same arguments:

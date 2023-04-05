@@ -26,10 +26,11 @@ export default `#graphql
   }
 
   type Message {
-    content: String!
-    from: String!
-    to: String!
-    createdAt: String
+    id: ID!
+    text: String!
+    createdAt: String!
+    sender: User!
+    thread: Thread!
   }
 
   type Reaction {
