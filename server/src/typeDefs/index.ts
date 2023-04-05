@@ -1,48 +1,40 @@
-import gql from 'graphql-tag';
 
-const typeDefs = gql`
+
+export default `#graphql
+
   type Query {
-    users: [User!]!
-    messages: [Message!]!
-    threads: [Thread!]!
-    thread(id: ID!): Thread
-  }
-
-  type User {
-    id: ID!
-    username: String!
-    threads: [Thread!]
-  }
-
-  type Thread {
-    id: ID!
-    users: [User!]!
-    messages: [Message!]!
-  }
-
-  type Message {
-    id: ID!
-    text: String!
-    createdAt: String!
-    sender: User!
-    thread: Thread!
+    users: [User!]
+    messages: [Message!]
+    reactions: [Reaction!]
+    login(username: String! password: String!) : User!
   }
 
   type Mutation {
-    createUser(userId: ID!, username: String!) : User
-    sendMessage(threadId: ID!, text: String!): Message
-    createThread(name: String!): Thread
+    registerUser(username: String! password: String! confirmPassword: String!): User!
+    sendMessage(content: String! from: String to: String): Message!
+    addReaction(message: String! by: String!): Reaction!
   }
 
   type Subscription {
-    messageAdded: Message
+    sendMessage: Message!
   }
 
-  schema {
-    query: Query
-    mutation: Mutation
-    subscription: Subscription
+  type User {
+    username: String!
+    imageUrl: String 
+    token: String
+  }
+
+  type Message {
+    content: String!
+    from: String!
+    to: String!
+    createdAt: String
+  }
+
+  type Reaction {
+    content: String!
+    from: User 
+    createdAt: String
   }
 `
-
-export default typeDefs;
