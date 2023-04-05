@@ -62,7 +62,7 @@ app.use("/holdit", (req, res) => {
 })
 
 app.use(
-  '/',
+  '/graphql',
   cors<cors.CorsRequest>(),
   bodyParser.json(),
   // expressMiddleware accepts the same arguments:
