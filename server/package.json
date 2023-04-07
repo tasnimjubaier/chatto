@@ -20,7 +20,8 @@
     "graphql-subscriptions": "^2.0.0",
     "graphql-tag": "^2.12.6",
     "graphql-ws": "^5.12.0",
-    "mongodb": "^4.13.0",
+    "mongodb": "^4.15.0",
+    "mongoose": "^7.0.3",
     "ws": "^8.13.0"
   },
   "keywords": [],
