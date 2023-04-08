@@ -1,33 +1,30 @@
-import InfoCard from "./Card";
-import './App.css'
 import { useEffect, useState } from "react";
-import Login from "./Login";
+import './App.css'
+
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Chat from "./pages/Chat";
+
 
 function App() {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    console.log('here')
+    
   }, [])
-
-  const handleLogin = (user) => {
-    setUser(user)
+  const handleLogin = (name, password) => {
+    setUser(name)
   }
-  function onSignIn(googleUser) {
-    // Get the Google user's profile information
-    var profile = googleUser.getBasicProfile();
-  
-    // Use the profile information to sign the user in to your application
-    // signIn(profile.getEmail(), profile.getName());
+  const register = () => {
+
   }
   
-
   return (
     <div className="App">
       {user ? 
-        <InfoCard /> : 
-        // <div className="g-signin2" data-onsuccess="onSignIn"></div>
-        <Login loggedIn={handleLogin}/>
+        <Chat /> : 
+        // <Signup signup={register}/>
+        <Login login={handleLogin}/>
       }
     </div>
   );

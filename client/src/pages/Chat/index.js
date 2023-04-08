@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import './Card.css'
-// import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
+import './index.css'
 
 
 
-const InfoCard = () => {
+const Chat = () => {
   const [users, setUsers] = useState(null) // { name, lastmsg }
   const [currentUser, setCurrentUser] = useState(null)
   const [chatHistory, setChatHistory] = useState(null)
@@ -18,7 +17,7 @@ const InfoCard = () => {
 
 
   return (
-    <div className='wrapper'>
+    <div className='chat-wrapper'>
       <div className='box'>
         <div className='left-panel'>
           <div className='topbar'>
@@ -66,4 +65,4 @@ const InfoCard = () => {
   )
 }
 
-export default InfoCard
+export default Chat

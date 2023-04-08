@@ -1,4 +1,4 @@
-.wrapper {
+.chat-wrapper {
   width: 100%;
   height: 100%;
 	display: flex;
@@ -8,7 +8,7 @@
 }
 
 
-.box{
+.chat-wrapper .box {
   width: 70%;
   height: 90%;
   border-radius: 30px;
@@ -19,12 +19,12 @@
   flex-direction: row;
   overflow: hidden;
 }
-.left-panel {
+.chat-wrapper .box .left-panel {
   height: 100%;
   width: 30%;
   background: rgba(230, 239, 255, 0.8);
 }
-.left-panel .topbar {
+.chat-wrapper .box .left-panel .topbar {
   width: 100%;
   height: 100px;
   /* background: blue; */
@@ -39,13 +39,13 @@
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.left-panel .users {
+.chat-wrapper .box .left-panel .users {
   height: 100%;
   width: 100%;
   background: rgba(246, 249, 255, 0.8);
 }
 
-.left-panel .users .user {
+.chat-wrapper .box .left-panel .users .user {
   width: 95%;
   height: 40px;
   border-radius: 10px;
@@ -58,7 +58,7 @@
   margin-left: 10px;
 }
 
-.left-panel .users .user .username {
+.chat-wrapper .box .left-panel .users .user .username {
   font-size: 1.6em;
   font-weight: 300;
   font-variant: small-caps;
@@ -66,7 +66,7 @@
       'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.left-panel .users .user .last-msg {
+.chat-wrapper .box .left-panel .users .user .last-msg {
   font-size: 1em;
   font-weight: 100;
   font-variant: small-caps;
@@ -74,7 +74,7 @@
       'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.interactions {
+.chat-wrapper .box .interactions {
   height: 100%;
   width: 70%;
   /* background: red; */
@@ -94,7 +94,7 @@
   background: rgba(54, 103, 176, 0.8);
   border-radius: 10px;
 }
-.interactions .chats {
+.chat-wrapper .box .interactions .chats {
   height: calc(100% - 50px);
   width: 100%;
   overflow: auto;
@@ -106,7 +106,7 @@
   align-items: left;
 }
 
-.interactions .chats .chat {
+.chat-wrapper .box .interactions .chats .chat {
   /* min-width: 100px; */
   max-width: 60%;
   /* overflow: auto; */
@@ -129,12 +129,12 @@
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 
       'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
-.interactions .chats .chat.current {
+.chat-wrapper .box .interactions .chats .chat.current {
   justify-content: right;
   align-self: end;
 }
 
-.interactions .chats .chat.sender::before {
+.chat-wrapper .box .interactions .chats .chat.sender::before {
   content: "";
   display: block;
   width: 22px;
@@ -148,15 +148,15 @@
   right: -10px;
   bottom: -2px;
 }
-.interactions .chats .chat.sender::before:hover {
+.chat-wrapper .box .interactions .chats .chat.sender::before:hover {
   opacity: 1;
 }
-.interactions .chats .chat::after {
+.chat-wrapper .box .interactions .chats .chat::after {
   content: "";
   display: block;
 }
 
-.interactions .msg-box {
+.chat-wrapper .box .interactions .msg-box {
   width: 100%;
   height: 50px;
   /* background: red; */
@@ -168,7 +168,7 @@
   justify-content: space-between;
 }
 
-.interactions .msg-box .input-box {
+.chat-wrapper .box .interactions .msg-box .input-box {
   width: 80%;
   margin: 0 5px 0 10px;
   padding: 7px 10px;
@@ -179,14 +179,14 @@
   font-size: 1.2em;
   transition: .13s ease-in-out;
 }
-.interactions .msg-box .input-box:hover {
+.chat-wrapper .box .interactions .msg-box .input-box:hover {
   border: 2px solid rgba(137, 182, 251, 0.8);
 }
-.interactions .msg-box .input-box:focus {
+.chat-wrapper .box .interactions .msg-box .input-box:focus {
   border: 2px solid rgba(83, 150, 250, 0.8);
 }
 
-.interactions .msg-box .send-msg-button {
+.chat-wrapper .box .interactions .msg-box .send-msg-button {
   width: 20%;
   height: 41px;
   margin: 0 10px 0 0;
@@ -210,7 +210,7 @@
   transition: .14s;
 }
 
-.interactions .msg-box .send-msg-button:hover {
+.chat-wrapper .box .interactions .msg-box .send-msg-button:hover {
   background: rgba(6, 100, 252, 0.8);
   color:rgba(255, 255, 255, 0.8);
   cursor: pointer;

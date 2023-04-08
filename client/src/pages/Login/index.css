@@ -1,0 +1,82 @@
+.login-wrapper {
+	height: 100vh;
+	width: 100vw;
+	/* background-color: green; */
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	display: flex;
+	flex-direction: row;
+	/* position: relative; */
+}
+
+.login-wrapper .left-panel {
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	/* background: linear-gradient(45deg, #2193b0, #6dd5ed); */
+	
+	background: linear-gradient(to bottom, #C8E0FF, #E7F3FF);
+
+}
+.login-wrapper .left-panel .title {
+	margin-top: 80px;
+	margin-bottom: 20px;
+	font-size: 30px;
+	font-weight: bold;
+}
+.login-wrapper .left-panel .google {
+	margin-top: 20px; 
+	width: 350px;
+	height: 45px;
+	font-size: 17px;
+}
+.login-wrapper .left-panel .linkedin {
+	margin-top: 5px; 
+	width: 350px;
+	height: 45px;
+	font-size: 17px;
+}
+
+.login-wrapper .left-panel .input-div {
+	display: flex;
+	flex-direction: column;
+	margin-top: 10px;
+}
+.login-wrapper .left-panel .name-div {
+	margin-top: 40px;
+}
+
+.login-wrapper .left-panel .input-div input {
+	/* margin-top: 5px; */
+	width: 300px;
+	height: 50px;
+	padding: 10px;
+	font-size: 20px;
+	border-radius: 10px;	
+}
+
+.login-wrapper .left-panel .input-div .name {
+	/* margin-top: 50px; */
+}
+
+.login-wrapper .left-panel .login-button {
+	margin-top: 30px; 
+	width: 150px;
+	height: 45px;
+	font-size: 20px;
+}
+.login-wrapper .right-panel {
+	width: 50%;
+	border-left: 1px solid black;
+	/* background: linear-gradient(to right, #8e2de2, #4a00e0); */
+	/* background: linear-gradient(to bottom, #ff8a00, #da1b60); */
+	/* background: linear-gradient(45deg, #4facfe, #00f2fe); */
+	/* background: linear-gradient(to right, #7f00ff, #e100ff); */
+	/* background: linear-gradient(to bottom, #F0F2F5, #fff); */
+	/* background: linear-gradient(to right, #ECE9E6, #FFFFFF); */
+	/* background: linear-gradient(to bottom, #F6F6F6, #FFFFFF); */
+	background: linear-gradient(135deg, #f7f7f7 0%, #d6d6d6 100%);
+
+
+
+}
