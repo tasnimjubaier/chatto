@@ -1,24 +1,79 @@
 import { PubSub } from "graphql-subscriptions"
+import { GraphQLError } from "graphql"
 
 const pubsub = new PubSub()
 
-export const MutationResolver = {
-	registerUser: (_, {username, password, confirmPassword}) => {
-		return {
-			username
-		}
-	},
-	sendMessage: (_, {content, from, to}) => {
-		pubsub.publish("SEND_MESSAGE", { sendMessage : {content, from, to, createdAt: "10"} })
+interface User {
+	username: String,
+	imageUrl: String,
+	token: String
+}
+interface Message {
+	content: String,
+	from: String, 
+	to: String, 
+}
+interface Reaction {
+	content: String, 
+	from: String
+}
 
-		return {
-			content, from, to
+export const MutationResolver = {
+	registerUser: async (_, {username, password, confirmPassword}, {db}) => {
+		const userCollection = db.collection('users')
+		
+		if (password !== confirmPassword) {
+			throw new GraphQLError("Passwords don't match", {
+				extensions: {
+					code: "BAD_USER_INPUT",
+					username
+				}
+			})
 		}
+
+		const user = {
+			// id: null,
+			username,
+			imageUrl: "url",
+			token: password
+		}
+
+		const result = await userCollection.insertOne(user)
+		// user.id = result.insertedId
+		console.log(user)
+
+		return user
 	},
-	addReaction: (_, {message, by}) => {
-		return {
-			content: "love"
+	sendMessage: async (_, {content, from, to}, {db}) => {
+		const messageCollection = db.collection("messages")
+
+		const message = {
+			// id: null,
+			content,
+			from,
+			to
 		}
+
+		const result = await messageCollection.insertOne(message)
+		// message.id = result.insertedId
+
+		pubsub.publish("SEND_MESSAGE", { sendMessage : message })
+
+		return message
+	},
+	addReaction: async (_, {message, by}, {db}) => {
+		const reactionCollection = db.collection("reactions")
+
+		const reaction = {
+			// id: null, 
+			content: message,
+			from : by 
+		}
+		
+		const result = await reactionCollection.insertOne(reaction)
+		// reaction.id = result.insertedId
+
+		return reaction 
 	}
 }
 

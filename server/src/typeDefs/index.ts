@@ -11,7 +11,7 @@ export default `#graphql
 
   type Mutation {
     registerUser(username: String! password: String! confirmPassword: String!): User!
-    sendMessage(content: String! from: String to: String): Message!
+    sendMessage(content: String! from: String! to: String!): Message!
     addReaction(message: String! by: String!): Reaction!
   }
 
@@ -34,7 +34,6 @@ export default `#graphql
 
   type Reaction {
     content: String!
-    from: User 
-    createdAt: String
+    from: String!
   }
 `

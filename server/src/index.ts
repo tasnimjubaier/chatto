@@ -9,12 +9,15 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { MongoClient, ServerApiVersion } from "mongodb";
+import * as dotenv from 'dotenv';
 
 import typeDefs from './typeDefs/index.js';
 import resolvers from './resolvers/index.js';
 
-const uri = "mongodb+srv://tasnimjubaier:ONvygBuyBAFVfWgh@cluster.ans1pf6.mongodb.net/test";
+dotenv.config();
 
+const uri = process.env.MONGODB_CONNECTION_URI;
+console.log("uri is here", {uri, db: process.env.DB_NAME})
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const app = express();
@@ -29,7 +32,6 @@ const client = new MongoClient(uri,  {
   }
 );
 
-// Creating the WebSocket server
 const wsServer = new WebSocketServer({
   server: httpServer,
   path: '/graphql',
@@ -47,7 +49,6 @@ const server = new ApolloServer({
   plugins: [
     // Proper shutdown for the HTTP server.
     ApolloServerPluginDrainHttpServer({ httpServer }),
-
     // Proper shutdown for the WebSocket server.
     {
       async serverWillStart() {
@@ -64,8 +65,21 @@ const server = new ApolloServer({
 
 await server.start();
 
-// Set up our Express middleware to handle CORS, body parsing,
-// and our expressMiddleware function.
+async function connectToDatabase() {
+  try {
+    await client.connect();
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
+    return client.db(process.env.DB_NAME)
+  } catch(err) {
+    console.log("Error while connecting to db", err)
+  }
+}
+
+const db = await connectToDatabase()
+
+
 
 app.use("/holdit", (req, res) => {
   res.end("hold it.")
@@ -75,10 +89,10 @@ app.use(
   '/graphql',
   cors<cors.CorsRequest>(),
   bodyParser.json(),
-  // expressMiddleware accepts the same arguments:
-  // an Apollo Server instance and optional configuration options
   expressMiddleware(server, {
-    context: async ({ req }) => ({ token: req.headers.token }),
+    context: async ({ req }) => {
+      return { token: req.headers.token, db }
+    },
   }),
 );
 
@@ -86,18 +100,3 @@ const PORT = 4000;
 httpServer.listen(PORT, () => {
   console.log(`Server is now running on http://localhost:${PORT}/graphql`);
 });
-
-
-async function run() {
-  try {
-    // Connect the client to the server (optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
