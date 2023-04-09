@@ -4,9 +4,10 @@ export default `#graphql
 
   type Query {
     users: [User!]
+    user(username: String!) : User
     messages: [Message!]
     reactions: [Reaction!]
-    login(username: String! password: String!) : User!
+    login(username: String! password: String!) : User
   }
 
   type Mutation {

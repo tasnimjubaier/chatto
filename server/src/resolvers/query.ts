@@ -10,6 +10,14 @@ export const QueryResolver = {
 
 		return users;
 	},
+	user: async (_, {username}, {db}) => {
+		const User = db.collection("users")
+
+		const cursor = await User.findOne({username}) as any
+
+		const user = cursor
+		return user 
+	},
 	messages: async (_, __, {db}) => {
 		const Message = db.collection("messages")
 
@@ -28,8 +36,11 @@ export const QueryResolver = {
 
 		return reactions
 	},
-	login: (_, {username, password}) => {
-			return {username}
+	login: (_, {username, password}, {db}) => {
+			const User = db.collection('users')
+			const cursor = User.findOne({username}) as any
+			const user = cursor
+			return user
 	}
 }
 
