@@ -1,21 +1,42 @@
-import React, { useState } from 'react'
-import { useQuery, gql } from '@apollo/client';
+import React, { useEffect, useState } from 'react'
+import { useQuery, gql, useLazyQuery } from '@apollo/client';
+import { useDispatch, useSelector } from 'react-redux';
+import { login as saveUser } from '../../features/user/userSlice';
 import './index.css'
+import { addUser } from '../../features/user/userSlice';
+import { LOG_IN } from '../../utils/queries';
 
-const Login = ({login}) => {
+const Login = () => {
   const [name, setName] = useState("")
 	const [password, setPassword] = useState("")
 
-  const handleLogin = (e) => {
-    e.preventDefault()
-    console.log(e)
-    login(name, password)
-  }
-  
-  const handleKeyDown = (e) => {
-    if(e.key === 'Enter') {
-      // loggedIn(user)
+  const [message, setMessage] = useState("")
+
+  const [login, { loading, error, data }] = useLazyQuery(LOG_IN) 
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    console.log(data)
+    if(error) {
+      setMessage(error)
     }
+    else if(data && data.login) {
+      if(data.login)
+        dispatch(saveUser({
+          username: data.username, 
+          imageUrl: data.imageUrl,
+          token : data.token
+        }))
+      else
+        setMessage('user not found')
+    }
+  }, [error, data])
+
+  const handleLogin = () => {
+    login({ variables : {
+      username: name,
+      password
+    }})
   }
 
   return (
@@ -34,7 +55,8 @@ const Login = ({login}) => {
           <input className='password' type='password' id='password' placeholder='password' onChange={ e => setPassword(e.target.value) } />
         </div>
 
-        <button className='login-button' onClick={handleLogin}>Login</button>
+        <button className='login-button' disabled={loading} onClick={handleLogin}>Login</button>
+        <small style={{color: 'red'}}>{message}</small>
         <p>Don't have an account? Signup </p>
       </div>
       <div className='right-panel'>

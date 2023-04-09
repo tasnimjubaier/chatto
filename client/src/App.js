@@ -1,30 +1,21 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import './App.css'
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Chat from "./pages/Chat";
 
-
 function App() {
-  const [user, setUser] = useState(null)
-
-  useEffect(() => {
-    
-  }, [])
-  const handleLogin = (name, password) => {
-    setUser(name)
-  }
-  const register = () => {
-
-  }
+  const user = useSelector(state => state.user.user)
   
   return (
     <div className="App">
       {user ? 
         <Chat /> : 
-        // <Signup signup={register}/>
-        <Login login={handleLogin}/>
+        // <Signup />
+        <Login />
+        // <Counter />
       }
     </div>
   );
