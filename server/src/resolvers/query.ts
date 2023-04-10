@@ -1,3 +1,6 @@
+import { GraphQLError } from "graphql"
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 
 export const QueryResolver = {
@@ -36,10 +39,30 @@ export const QueryResolver = {
 
 		return reactions
 	},
-	login: (_, {username, password}, {db}) => {
+	login: async (_, {username, password}, {db}) => {
 			const User = db.collection('users')
-			const cursor = User.findOne({username}) as any
-			const user = cursor
+			const cursor = await User.findOne({username}) as any
+
+			// compare passwords
+			const match = await bcrypt.compare(password, cursor.password)
+
+			if (!match) {
+				throw new GraphQLError("Incorrect Password", {
+					extensions: {
+						code: "BAD_USER_INPUT",
+						username
+					}
+				})
+			}
+
+			// generate token
+			const token =  jwt.sign({username}, process.env.JWT_SECRET)
+
+			const user = {
+				username: cursor.username,
+				imageUri: "uri",
+				token 
+			}
 			return user
 	}
 }

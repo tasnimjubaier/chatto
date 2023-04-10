@@ -12,7 +12,12 @@ const slice = createSlice({
 	initialState,
 	reducers: {
 		login: (state, action) => {
-			state.user = action.payload
+			localStorage.setItem('token', action.payload.token)
+
+			state.user = {
+				username: action.payload.username,
+				imageUrl: action.payload.imageUrl
+			}
 		}
 	},
 	extraReducers: (builder) => {

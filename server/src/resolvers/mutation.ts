@@ -1,5 +1,6 @@
 import { PubSub } from "graphql-subscriptions"
 import { GraphQLError } from "graphql"
+import bcrypt from 'bcrypt'
 
 const pubsub = new PubSub()
 
@@ -31,16 +32,16 @@ export const MutationResolver = {
 			})
 		}
 
+		// encrypt password
+		const encrypted = await bcrypt.hash(password, 10)
+
 		const user = {
-			// id: null,
 			username,
 			imageUrl: "url",
-			token: password
+			password: encrypted
 		}
 
 		const result = await userCollection.insertOne(user)
-		// user.id = result.insertedId
-		console.log(user)
 
 		return user
 	},
@@ -48,14 +49,12 @@ export const MutationResolver = {
 		const messageCollection = db.collection("messages")
 
 		const message = {
-			// id: null,
 			content,
 			from,
 			to
 		}
 
 		const result = await messageCollection.insertOne(message)
-		// message.id = result.insertedId
 
 		pubsub.publish("SEND_MESSAGE", { sendMessage : message })
 
@@ -65,13 +64,11 @@ export const MutationResolver = {
 		const reactionCollection = db.collection("reactions")
 
 		const reaction = {
-			// id: null, 
 			content: message,
 			from : by 
 		}
 		
 		const result = await reactionCollection.insertOne(reaction)
-		// reaction.id = result.insertedId
 
 		return reaction 
 	}

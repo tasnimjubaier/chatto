@@ -21,20 +21,16 @@ const Signup = ({signup}) => {
   const dispatch = useDispatch()
   
   useEffect(() => {
-    if (data && data.user && data.user.username)
-    {
+    if (data && data.user && data.user.username){
       setNameMessage("user already exists")
-      console.log(data.user.username)
     }
     else 
       setNameMessage("")
   }, [data])
 
   useEffect(() => {
-    console.log('here in login')
     console.log(registerUserData)
     if(registerUserData) {
-      console.log('here in loging')
       dispatch(login({
         username: registerUserData.username,
         imageUrl: registerUserData.imageUrl,
@@ -48,7 +44,7 @@ const Signup = ({signup}) => {
   }
 
   useEffect(() => {
-    setTimeout(searchUser, 500)
+    setTimeout(searchUser, 200)
 
     return () => {
       clearTimeout(searchUser)

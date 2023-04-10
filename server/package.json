@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/server": "^4.5.0",
     "@graphql-tools/schema": "^9.0.17",
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -21,6 +22,7 @@
     "graphql-subscriptions": "^2.0.0",
     "graphql-tag": "^2.12.6",
     "graphql-ws": "^5.12.0",
+    "jsonwebtoken": "^9.0.0",
     "mongodb": "^4.15.0",
     "mongoose": "^7.0.3",
     "ws": "^8.13.0"

@@ -14,8 +14,8 @@ function App() {
       {user ? 
         <Chat /> : 
         // <Signup />
-        <Login />
-        // <Counter />
+        // <Login />
+        <Chat />
       }
     </div>
   );

@@ -1,7 +1,11 @@
+import { ObjectId } from "mongodb";
 import { Schema, model } from "mongoose";
 
 
 const user = new Schema({
+	_id: {
+		type: ObjectId 
+	},
 	username: {
 		type: String,
 		required: true 
@@ -9,12 +13,15 @@ const user = new Schema({
 	imageUrl: {
 		type: String
 	},
-	token: {
+	password: {
 		type: String
 	}
 })
 
 const message = new Schema({
+	_id: {
+		type: ObjectId 
+	},
 	content: {
 		type: String,
 		required: true
@@ -30,6 +37,9 @@ const message = new Schema({
 })
 
 const reaction = new Schema({
+	_id: {
+		type: ObjectId 
+	},
 	content: {
 		type: String,
 		required: true
