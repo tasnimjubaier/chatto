@@ -11,6 +11,7 @@
   flex-direction: column;
 
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .username {
