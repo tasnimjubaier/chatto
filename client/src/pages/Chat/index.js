@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import './index.css'
+import { useQuery } from '@apollo/client'
+import { GET_USERS } from '../../utils/queries'
 
+import './index.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { saveUsers } from '../../features/users/usersSlice'
 
 
 const Chat = () => {
-  const [users, setUsers] = useState(null) // { name, lastmsg }
   const [currentUser, setCurrentUser] = useState(null)
   const [chatHistory, setChatHistory] = useState(null)
+  
+  const {data, loading, error} = useQuery(GET_USERS)
+
+  const dispatch = useDispatch()
+  const users = useSelector(state => state.users.users)
 
   useEffect(() => {
     
+    if(data) {
+      dispatch(saveUsers(data.users))
+    }
+
     return () => {
       
     };
-  }, []);
+  }, [data]);
 
 
   return (
@@ -24,15 +36,17 @@ const Chat = () => {
               Chatto
           </div>
           <div className='users'>
+            {loading && (<div>loading</div>)}
+            {error && <div>error loading users</div>}
             {users && users.map((user, key) => {
               return (
                 <div key={key} className="user">
                     <div className='username'>
-                      {user.name}
+                      {user.username}
                     </div>
-                    <div className='last-msg'>
-                      {user.lastMsg}
-                    </div>
+                    {/* <div className='last-msg'>
+                      {user.imageUrl}
+                    </div> */}
                 </div>
               )
             })}

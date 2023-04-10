@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { useDispatch } from 'react-redux'
 
 import './index.css'
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { GET_USER, SIGN_UP } from '../../utils/queries'
 import { login } from '../../features/user/userSlice'
-import { useDispatch } from 'react-redux'
 
 const Signup = ({signup}) => {
   const [name, setName] = useState("")
@@ -29,7 +29,6 @@ const Signup = ({signup}) => {
   }, [data])
 
   useEffect(() => {
-    console.log(registerUserData)
     if(registerUserData) {
       dispatch(login({
         username: registerUserData.username,
@@ -52,8 +51,8 @@ const Signup = ({signup}) => {
   }, [name])
 
   const handleSignup = (e) => {
+    e.preventDefault()
     if(name === ""){
-      if(nameMessage !== "") return 
       setNameMessage("Please choose a username")
       return 
     }
@@ -66,7 +65,10 @@ const Signup = ({signup}) => {
       setConfirmPasswordMessage("Passwords don't match")
       return 
     }
-    console.log('here')
+
+    if(nameMessage !== "") {
+      return 
+    }
 
     registerUser({ variables: {
       username: name,
@@ -77,7 +79,6 @@ const Signup = ({signup}) => {
 
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value)
-    console.log(e.target.value + ' ' + password)
     if(password && password !== e.target.value) 
       setConfirmPasswordMessage("Passwords don't match")
     else 
@@ -98,7 +99,7 @@ const Signup = ({signup}) => {
         </div>
         <div className='input-div password-div'>
           <label for="password">Password</label>
-          <input className='password' type='password' id='password' placeholder='password' onChange={ e => setPassword(e.target.value) } />
+          <input className='password' type='password' id='password' placeholder='password' onChange={ e => { setPassword(e.target.value); setPasswordMessage("") } } />
           <small style={{color: 'red'}}>{passwordMessage}</small>
         </div>
         <div className='input-div confirm-password-div'>
@@ -114,9 +115,6 @@ const Signup = ({signup}) => {
         <p>Already have an account? Signin </p>
       </div>
       <div className='right-panel'>
-        {registerUserLoading && "loading"}
-        {registerUserData && "data"}
-        {registerUserError && "error"}
       </div>
     </div>
   )

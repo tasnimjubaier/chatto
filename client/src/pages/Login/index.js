@@ -16,16 +16,15 @@ const Login = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log(data)
     if(error) {
       setMessage(error)
     }
-    else if(data && data.login) {
+    else if(data) {
       if(data.login)
         dispatch(saveUser({
-          username: data.username, 
-          imageUrl: data.imageUrl,
-          token : data.token
+          username: data.login.username, 
+          imageUrl: data.login.imageUrl,
+          token : data.login.token
         }))
       else
         setMessage('user not found')
@@ -48,11 +47,11 @@ const Login = () => {
 
         <div className='input-div name-div'>
           <label for="name">Name</label>
-          <input className='name' type='text' id='name' placeholder='name' onChange={ e => setName(e.target.value) } />
+          <input className='name' type='text' id='name' placeholder='name' onChange={ e => { setName(e.target.value); setMessage("") } } />
         </div>
         <div className='input-div password-div'>
           <label for="password">Password</label>
-          <input className='password' type='password' id='password' placeholder='password' onChange={ e => setPassword(e.target.value) } />
+          <input className='password' type='password' id='password' placeholder='password' onChange={ e => { setPassword(e.target.value); setMessage("") } } />
         </div>
 
         <button className='login-button' disabled={loading} onClick={handleLogin}>Login</button>
@@ -60,7 +59,9 @@ const Login = () => {
         <p>Don't have an account? Signup </p>
       </div>
       <div className='right-panel'>
-
+          {/* {loading && "loading"}
+          {error && "error"}
+          {data && "data"} */}
       </div>
     </div>
   )

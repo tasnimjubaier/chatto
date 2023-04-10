@@ -1,0 +1,69 @@
+
+.interactions {
+  height: 100%;
+  width: 70%;
+	background: linear-gradient(135deg, #f7f7f7 0%, #d6d6d6 100%);
+
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px 10px 10px;
+}
+
+
+.interactions .msg-box {
+  width: 100%;
+  height: 50px;
+  margin: 0 0 10px 0;
+
+  display: flex;
+	align-items: center;
+  justify-content: space-between;
+}
+
+.interactions .msg-box .input-box {
+  width: 80%;
+  margin: 0 5px 0 10px;
+  padding: 7px 10px;
+  border-radius: 7px;
+  border: 2px solid rgba(177, 208, 255, 0.8);
+  outline: none;
+
+  font-size: 1.2em;
+  transition: .13s ease-in-out;
+}
+.interactions .msg-box .input-box:hover {
+  border: 2px solid rgba(137, 182, 251, 0.8);
+}
+.interactions .msg-box .input-box:focus {
+  border: 2px solid rgba(83, 150, 250, 0.8);
+}
+
+.interactions .msg-box .send-msg-button {
+  width: 20%;
+  height: 41px;
+  margin: 0 10px 0 0;
+  padding: 7px 10px;
+  border-radius: 7px;
+  outline: none;
+  border: none;
+  background: rgba(131, 179, 255, 0.8);
+
+  display: flex;
+	align-items: center;
+	justify-content: center;
+
+  font-size: 1.6em;
+  font-weight: 600;
+  font-variant: small-caps;
+  letter-spacing: .1rem;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 
+      'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+  transition: .14s;
+}
+
+.interactions .msg-box .send-msg-button:hover {
+  background: rgba(6, 100, 252, 0.8);
+  color:rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}

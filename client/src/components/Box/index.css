@@ -1,0 +1,28 @@
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 1px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(54, 103, 176, 0.8);
+  border-radius: 10px;
+}
+
+.box-wrapper {
+  height: 100vh;
+  width: 100vw;
+	display: flex;
+  flex-direction: row;
+	border-radius: 10px;  
+	/* border: 2px solid rgba(0, 1, 1, 0.8); */
+	/* overflow: hidden; */
+}
+
+.box-wrapper .left-panel {
+  height: 100vh;
+  width: 24%;
+
+  display: flex;
+  flex-direction: column;
+}
