@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation } from '@apollo/client'
 
 import { SEND_MESSAGE } from '../../utils/queries'
 import Topbar from './Topbar'
 import Chats from './Chats'
 import styles from './index.module.css'
+import { useDispatch } from 'react-redux'
+import { addMessage } from '../../features/chatHistory/chatHistorySlice'
 
 
 const Message = ({user, selectedUser}) => {
@@ -12,16 +14,29 @@ const Message = ({user, selectedUser}) => {
 	
 	const [sendMessage, {data, error, loading}] = useMutation(SEND_MESSAGE)
 
+	const dispatch = useDispatch()
+
+
+	useEffect(() => {
+		if (error) {
+
+		}
+		if (data) {
+			dispatch(addMessage({ user: selectedUser.username, message: data.content }))
+		}
+	}, [data, error])
+
 	const handleSendMessage = (message) => {
 		sendMessage({variables: {
 			content: message,
-			from: user,
-			to: selectedUser
+			from: user.username,
+			to: selectedUser.username
 		}})
+
+		setContent("")
 	}
 
 	const handleOnKeyDown = (e) => {
-		e.preventDefault()
 		if (e.key === 'Enter') {
       handleSendMessage(content)
     }
