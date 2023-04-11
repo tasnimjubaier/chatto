@@ -16,13 +16,13 @@ const Message = ({user, selectedUser}) => {
 
 	const dispatch = useDispatch()
 
-
 	useEffect(() => {
 		if (error) {
 
 		}
 		if (data) {
-			dispatch(addMessage({ user: selectedUser.username, message: data.content }))
+			console.log({data})
+			dispatch(addMessage({ user: selectedUser.username, message: data.sendMessage }))
 		}
 	}, [data, error])
 

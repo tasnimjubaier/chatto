@@ -2,16 +2,18 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLazyQuery } from '@apollo/client'
 
-import { GET_MESSAGES } from '../../../utils/queries'
-import styles from './index.module.css'
+import { GET_MESSAGES, SEND_MESSAGE_SUBSCRIPTION } from '../../../utils/queries'
 import { loadChats } from '../../../features/chatHistory/chatHistorySlice'
+import styles from './index.module.css'
 
 const Chats = ({selectedUser}) => {
+	// const [chatHistory, setChatHistory] = useState([])
 	
-	const chatHistory = useSelector(state => state.chatHistory.chatHistory)
 	const user = useSelector(state => state.user.user)
 
-	const [getMessages, {data, error, loading}] = useLazyQuery(GET_MESSAGES)
+	const chatHistory = useSelector(state => state.chatHistory[selectedUser?.username])
+
+	const [getMessages, {data, error, loading, subscribeToMore, }] = useLazyQuery(GET_MESSAGES)
 
 	const dispatch = useDispatch()
 	
@@ -20,7 +22,7 @@ const Chats = ({selectedUser}) => {
 			return 
 		}
 		if (data) {
-			dispatch(loadChats({ user : selectedUser, messages : data.messages}))
+			dispatch(loadChats({ user : selectedUser.username, messages : data.messages}))
 		}
 	}, [data, error])
 
@@ -30,28 +32,42 @@ const Chats = ({selectedUser}) => {
 				from : selectedUser.username,
 				to : user.username
 			}})
+
+			subscribeToMore({
+				document: SEND_MESSAGE_SUBSCRIPTION,
+				variables: { username: user.username },
+				updateQuery: (prev, { subscriptionData }) => {
+					if (!subscriptionData.data) 
+						return prev 
+
+					const newMessage = subscriptionData.data.sendMessage
+					const updated = {
+						...prev,
+						messages: [ ...prev.messages, newMessage ]
+					}
+
+					return updated
+				}
+			})
 		}
 	}, [selectedUser])
 
 
 	return (
 		<div className={styles['chats']}>
-					{/* <div className={`${styles['chat']} ${styles['sender']}`}> hi</div>
-					<div className={`${styles['chat']} ${styles['current']}`}> ing SystemeBox.</div>
-					<div className={`${styles['chat']} ${styles['sender']}`}> ing System.ThreadinageBox.</div> */}
-					{selectedUser && chatHistory[selectedUser] &&
-						chatHistory[selectedUser].map((message, key) => {
-							return (
-								<div key={key} className={`${styles[`chat`]} ${message.from === user.username ? styles['current'] : styles['sender']}`}>
-									{message.content}
-									{/* <small>{message.createdAt}</small> */}
-								</div>
-							)
-						})
-					}
-					<div className={styles['error']}>{error?.message}</div>
-					<div className={styles['loading']}>{loading && "Loading Conversation..."}</div>
-			</div>
+			{selectedUser && chatHistory &&
+				chatHistory.map((message, key) => {
+					return (
+						<div key={key} className={`${styles[`chat`]} ${message.from === user.username ? styles['current'] : styles['sender']}`}>
+							{message.content}
+							{/* <small>{message.createdAt}</small> */}
+						</div>
+					)
+				})
+			}
+			<div className={styles['error']}>{error?.message}</div>
+			<div className={styles['loading']}>{loading && "Loading Conversation..."}</div>
+		</div>
 	)
 }
 

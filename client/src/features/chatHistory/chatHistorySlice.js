@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const initialState = {
-	chatHistory: {}
-}
+const initialState = {}
 
 const slice = createSlice({
 	name: 'chatHistory',
@@ -11,11 +9,13 @@ const slice = createSlice({
 	reducers: {
 		loadChats: (state, action) => {  // action : { user: "alex", messages: []}
 			console.log({payload : action.payload})
-			state.chatHistory[action.payload.user] = action.payload.messages
+			state[action.payload.user] = action.payload.messages
 		},
     addMessage: (state, action) => { // action : { user: "alex", message: "hello"}
-      if (!state.chatHistory[action.payload.user]) state.chatHistory[action.payload.user] = []
-      state.chatHistory[action.payload.user].push(action.payload.message)
+      if (!state[action.payload.user]) state[action.payload.user] = []
+      console.log({payload : action.payload})
+			// state[action.payload.user] = [ ...state[action.payload.user], action.payload.message ]
+			state[action.payload.user].push(action.payload.message)
     }
 	},
 })

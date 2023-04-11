@@ -1,4 +1,4 @@
-import { PubSub } from "graphql-subscriptions"
+import { PubSub, withFilter } from "graphql-subscriptions"
 import { GraphQLError } from "graphql"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -69,6 +69,11 @@ export const MutationResolver = {
 
 export const SubscriptionResolver = {
 	sendMessage: {
-		subscribe: () => pubsub.asyncIterator(['SEND_MESSAGE'])
+		subscribe: withFilter(
+			() => pubsub.asyncIterator(['SEND_MESSAGE']),
+			(payload, { username }) => {
+				return payload.sendMessage.to === username
+			}
+		)
 	}
 }

@@ -45,3 +45,11 @@ export const SEND_MESSAGE = gql`
 		}
 	}
 `
+
+export const SEND_MESSAGE_SUBSCRIPTION = gql`
+	subscription subscribeToNewMessage($username: String!){
+		sendMessage(username: $username) {
+			content  createdAt from to
+		}
+	}
+`

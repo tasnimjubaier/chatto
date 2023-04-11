@@ -17,7 +17,7 @@ export default `#graphql
   }
 
   type Subscription {
-    sendMessage: Message!
+    sendMessage(username: String!): Message!
   }
 
   type User {
