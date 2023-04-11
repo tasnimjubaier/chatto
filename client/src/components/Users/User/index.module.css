@@ -8,24 +8,38 @@
   background: rgba(222, 235, 255, 0.8);
   
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
 
   margin-left: 10px;
   cursor: pointer;
 }
 
+.image-div {
+  width: 45px;
+  height: 45px;
+  margin-left: 0px;
+  border-radius: 50%;
+  background-color: rgb(88, 86, 86);
+}
+
+.others-div {
+  width: 80%;
+  margin-left: 10px;
+}
+
 .username {
-  font-size: 1.6em;
+  font-size: 1.2em;
   font-weight: 300;
-  font-variant: small-caps;
+  /* font-variant: small-caps; */
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 
       'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .last-msg {
   font-size: 1em;
-  font-weight: 100;
-  font-variant: small-caps;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 
-      'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: normal;
+  /* font-variant: small-caps; */
+  font-family: sans-serif;
 }

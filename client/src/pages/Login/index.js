@@ -1,23 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import { useQuery, gql, useLazyQuery } from '@apollo/client';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useDeferredValue, useEffect, useState } from 'react'
+import { useLazyQuery } from '@apollo/client';
+import { useDispatch } from 'react-redux';
 import { login as saveUser } from '../../features/user/userSlice';
+
 import './index.css'
-import { addUser } from '../../features/user/userSlice';
 import { LOG_IN } from '../../utils/queries';
 
 const Login = () => {
   const [name, setName] = useState("")
 	const [password, setPassword] = useState("")
 
+  const [nameMessage, setNameMessage] = useState("")
+  const [passwordMessage, setPasswordMessage] = useState("")
   const [message, setMessage] = useState("")
 
-  const [login, { loading, error, data }] = useLazyQuery(LOG_IN) 
+  const [login, { loading, error, data, networkStatus, called }] = useLazyQuery(LOG_IN, {
+    fetchPolicy: "cache-and-network", // Used for first execution
+    nextFetchPolicy: 'cache-first',
+  }) 
   const dispatch = useDispatch()
 
   useEffect(() => {
+    console.log({networkStatus})
+    console.log({called})
+  }, [called, networkStatus])
+
+  useEffect(() => {
     if(error) {
-      setMessage(error)
+      setMessage(error.message)
     }
     else if(data) {
       if(data.login)
@@ -32,6 +42,15 @@ const Login = () => {
   }, [error, data])
 
   const handleLogin = () => {
+    if (name === "") {
+      setNameMessage("enter name")
+      return 
+    }
+    if (password === "") {
+      setPasswordMessage("enter password")
+      return 
+    }
+
     login({ variables : {
       username: name,
       password
@@ -47,11 +66,15 @@ const Login = () => {
 
         <div className='input-div name-div'>
           <label for="name">Name</label>
-          <input className='name' type='text' id='name' placeholder='name' onChange={ e => { setName(e.target.value); setMessage("") } } />
+          <input className='name' type='text' id='name' placeholder='name' 
+            onChange={ e => { setName(e.target.value); setMessage(""); setNameMessage(""); setPasswordMessage("") } } />
+          <small style={{color: 'red'}}>{nameMessage}</small>
         </div>
         <div className='input-div password-div'>
           <label for="password">Password</label>
-          <input className='password' type='password' id='password' placeholder='password' onChange={ e => { setPassword(e.target.value); setMessage("") } } />
+          <input className='password' type='password' id='password' placeholder='password' 
+            onChange={ e => { setPassword(e.target.value); setMessage(""); setNameMessage(""); setPasswordMessage("") } } />
+          <small style={{color: 'red'}}>{passwordMessage}</small>
         </div>
 
         <button className='login-button' disabled={loading} onClick={handleLogin}>Login</button>
@@ -59,9 +82,9 @@ const Login = () => {
         <p>Don't have an account? Signup </p>
       </div>
       <div className='right-panel'>
-          {/* {loading && "loading"}
+          {loading && "loading"}
           {error && "error"}
-          {data && "data"} */}
+          {data && "data"}
       </div>
     </div>
   )

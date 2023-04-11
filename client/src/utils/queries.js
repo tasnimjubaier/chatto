@@ -29,3 +29,19 @@ export const GET_USERS = gql`
 		}
 	}
 `
+
+export const GET_MESSAGES = gql`
+	query getMessages($from: String!, $to: String!) {
+		messages(from: $from, to: $to) {
+			content createdAt from  to
+		}
+	}
+`
+
+export const SEND_MESSAGE = gql`
+	mutation sendMessage($content: String!, $from: String!, $to: String!){
+		sendMessage(content: $content, from: $from, to: $to) {
+			content from to createdAt
+		}
+	}
+`

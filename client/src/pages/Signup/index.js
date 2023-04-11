@@ -21,12 +21,15 @@ const Signup = ({signup}) => {
   const dispatch = useDispatch()
   
   useEffect(() => {
+    if (error) {
+      setNameMessage(error.message)
+    }
     if (data && data.user && data.user.username){
       setNameMessage("user already exists")
     }
     else 
       setNameMessage("")
-  }, [data])
+  }, [data, error])
 
   useEffect(() => {
     if(registerUserData) {

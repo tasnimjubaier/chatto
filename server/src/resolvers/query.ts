@@ -18,13 +18,14 @@ export const QueryResolver = {
 
 		const cursor = await User.findOne({username}) as any
 
-		const user = cursor
-		return user 
+		return cursor 
 	},
-	messages: async (_, __, {db}) => {
+	messages: async (_, {from, to}, {db}) => {
 		const Message = db.collection("messages")
 
-		const cursor = await Message.find({}) as any
+		const cursor = await Message.find({
+			$or: [{from, to}, {from : to, to : from}]
+		}).sort({createdAt: 1}) as any
 
 		const messages = cursor.toArray()
 
@@ -43,9 +44,16 @@ export const QueryResolver = {
 			const User = db.collection('users')
 			const cursor = await User.findOne({username}) as any
 
-			// compare passwords
-			const match = await bcrypt.compare(password, cursor.password)
+			if(!cursor) {
+				throw new GraphQLError("User Not Found", {
+					extensions: {
+						code: "BAD_USER_INPUT",
+						username
+					}
+				})
+			}
 
+			const match = await bcrypt.compare(password, cursor.password)
 			if (!match) {
 				throw new GraphQLError("Incorrect Password", {
 					extensions: {
@@ -55,16 +63,26 @@ export const QueryResolver = {
 				})
 			}
 
-			// generate token
 			const token =  jwt.sign({username}, process.env.JWT_SECRET)
 
 			const user = {
-				username: cursor.username,
-				imageUri: "uri",
+				...cursor,
 				token 
 			}
 			return user
 	}
 }
 
+
+export const UserResolver = {
+	token: (parent, payload, context) => {
+		const token =  jwt.sign({username: parent.username}, process.env.JWT_SECRET)
+
+		return token 
+	}
+}
+
+export const MessageResolver = {
+	
+}
 

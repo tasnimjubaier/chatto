@@ -6,11 +6,16 @@ const User = ({key, user, userSelected}) => {
 
 	return (
 		<div key={key} className={styles['user']} onClick={() => userSelected(user)}>
-			<div className={styles['username']}>
-				{user.username}
+			<div className={styles["image-div"]}>
+
 			</div>
-			<div className={styles['last-msg']}>
-				this is the last message
+			<div className={styles['others-div']}>
+				<div className={styles['username']}>
+					{user.username}
+				</div>
+				<div className={styles['last-msg']}>
+					this is the last message
+				</div>
 			</div>
 		</div>
 	)

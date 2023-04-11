@@ -1,7 +1,7 @@
 .navigation-panel-wrapper {
 	height: 100%;
 	width: 10%;
-	background-color: rgb(187, 233, 248);
+	background-color:#FAFAFA;
 
 	display: flex;
 	flex-direction: column;

@@ -1,23 +1,10 @@
 import { PubSub } from "graphql-subscriptions"
 import { GraphQLError } from "graphql"
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const pubsub = new PubSub()
 
-interface User {
-	username: String,
-	imageUrl: String,
-	token: String
-}
-interface Message {
-	content: String,
-	from: String, 
-	to: String, 
-}
-interface Reaction {
-	content: String, 
-	from: String
-}
 
 export const MutationResolver = {
 	registerUser: async (_, {username, password, confirmPassword}, {db}) => {
@@ -35,13 +22,18 @@ export const MutationResolver = {
 		// encrypt password
 		const encrypted = await bcrypt.hash(password, 10)
 
-		const user = {
+		let user = {
 			username,
-			imageUrl: "url",
+			imageUrl: "newUrl",
+			profileDescription: "profile description",
 			password: encrypted
 		}
 
 		const result = await userCollection.insertOne(user)
+
+		const token = jwt.sign({username}, process.env.JWT_SECRET)
+
+		user = { ...user, token } as any
 
 		return user
 	},
@@ -51,7 +43,8 @@ export const MutationResolver = {
 		const message = {
 			content,
 			from,
-			to
+			to,
+			createdAt: new Date().toISOString()
 		}
 
 		const result = await messageCollection.insertOne(message)

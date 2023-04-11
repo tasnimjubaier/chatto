@@ -5,7 +5,7 @@ export default `#graphql
   type Query {
     users: [User!]
     user(username: String!) : User
-    messages: [Message!]
+    messages(from: String! to: String!): [Message!]
     reactions: [Reaction!]
     login(username: String! password: String!) : User
   }
@@ -23,6 +23,7 @@ export default `#graphql
   type User {
     username: String!
     imageUrl: String 
+    profileDescription: String
     token: String
   }
 

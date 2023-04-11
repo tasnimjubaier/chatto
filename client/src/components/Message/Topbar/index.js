@@ -6,7 +6,12 @@ const Topbar = ({selectedUser}) => {
 	
 	return (
 		<div className={styles['topbar']}>
-			{selectedUser ? selectedUser.username : "Select a user to start a chat"}
+			<div className={styles["image-div"]}>
+				
+			</div>
+			<div className={styles['others-div']}>
+				{selectedUser ? selectedUser.username : "Select a user to start a chat"}
+			</div>
 		</div>
 	)
 }
