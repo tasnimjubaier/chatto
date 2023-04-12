@@ -20,8 +20,8 @@ const Message = ({user, selectedUser}) => {
 	const client = useApolloClient()
 
 	useEffect(() => {
-		console.log({messagehis: messageHistory})
-		console.log({newmessagehis: newMessageHistory})
+		// console.log({messagehis: messageHistory})
+		// console.log({newmessagehis: newMessageHistory})
 
 	}, [messageHistory, newMessageHistory])
 	useEffect(() => {
@@ -48,7 +48,6 @@ const Message = ({user, selectedUser}) => {
 					...data.sendMessage
 				}
 			})
-
 		}
 	}, [data, error])
 

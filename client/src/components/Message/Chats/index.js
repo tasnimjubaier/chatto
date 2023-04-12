@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLazyQuery } from '@apollo/client'
 
@@ -7,10 +7,9 @@ import { clearNewMessageHistory, loadChats } from '../../../features/chatHistory
 import styles from './index.module.css'
 
 const Chats = ({selectedUser}) => {
-	// const [chatHistory, setChatHistory] = useState([])
+	const messageDivRef = useRef(null)
 	
 	const user = useSelector(state => state.user.user)
-
 	const chatHistory = useSelector(state => state.chatHistory.messages[selectedUser?.username])
 	const newMessageHistory = useSelector(state => state.chatHistory.newMessages[selectedUser?.username])
 
@@ -18,6 +17,12 @@ const Chats = ({selectedUser}) => {
 
 	const dispatch = useDispatch()
 	
+	useEffect(() => {
+		const chats = messageDivRef.current
+		chats.scrollTop = chats.scrollHeight
+		
+	}, [chatHistory])
+
 	useEffect(() => {
 		if (error) {
 			return 
@@ -36,20 +41,24 @@ const Chats = ({selectedUser}) => {
 					return prev 
 
 				const newMessage = subscriptionData.data.sendMessage
-				console.log({prev: prev.messages})
-				console.log({newmsghis: newMessageHistory})
+				// console.log({prev: prev.messages})
+				// console.log({newmsghis: newMessageHistory})
+				// const updated = {
+				// 	...prev,
+				// 	messages: newMessageHistory ? [ ...prev.messages, ...newMessageHistory, newMessage ] : [ ...prev.messages, newMessage ]
+				// }
 				const updated = {
 					...prev,
-					messages: newMessageHistory ? [ ...prev.messages, ...newMessageHistory, newMessage ] : [ ...prev.messages, newMessage ]
+					messages: [ ...prev.messages, newMessage ]
 				}
-				console.log({updated: updated.messages})
-				console.log({newHistoryThen: newMessageHistory})
-				clearNewMessageHistory({ user: selectedUser.username })
-				console.log({newMessageHistoryNow: newMessageHistory})
+				// console.log({updated: updated.messages})
+				// console.log({newHistoryThen: newMessageHistory})
+				// clearNewMessageHistory({ user: selectedUser.username })
+				// console.log({newMessageHistoryNow: newMessageHistory})
 				return updated
 			}
 		})
-	}, [newMessageHistory, selectedUser, subscribeToMore, user])
+	}, [])
 
 	useEffect(() => {
 		if(selectedUser) {
@@ -62,7 +71,7 @@ const Chats = ({selectedUser}) => {
 
 
 	return (
-		<div className={styles['chats']}>
+		<div className={styles['chats']} ref={messageDivRef}>
 			{selectedUser && chatHistory &&
 				chatHistory.map((message, key) => {
 					return (

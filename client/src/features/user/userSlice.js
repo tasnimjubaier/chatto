@@ -16,6 +16,7 @@ const slice = createSlice({
 
 			state.user = {
 				username: action.payload.username,
+				// token: action.payload.token,
 				imageUrl: action.payload.imageUrl
 			}
 		}

@@ -59,3 +59,11 @@
   content: "";
   display: block;
 }
+
+
+.error {
+  font-size: 1.9em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

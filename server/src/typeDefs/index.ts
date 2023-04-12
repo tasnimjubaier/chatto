@@ -1,7 +1,6 @@
 
 
 export default `#graphql
-
   type Query {
     users: [User!]
     user(username: String!) : User

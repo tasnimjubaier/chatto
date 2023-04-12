@@ -91,7 +91,8 @@ app.use(
   bodyParser.json(),
   expressMiddleware(server, {
     context: async ({ req }) => {
-      return { token: req.headers.token, db }
+      console.log({ headers: req.headers })
+      return { token: req.headers.authorization, db }
     },
   }),
 );
