@@ -1,28 +1,54 @@
 import React, { useEffect, useState } from 'react'
-import { useMutation } from '@apollo/client'
+import { gql, useApolloClient, useMutation } from '@apollo/client'
 
 import { SEND_MESSAGE } from '../../utils/queries'
 import Topbar from './Topbar'
 import Chats from './Chats'
 import styles from './index.module.css'
-import { useDispatch } from 'react-redux'
-import { addMessage } from '../../features/chatHistory/chatHistorySlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { addMessage, addNewMessage } from '../../features/chatHistory/chatHistorySlice'
 
 
 const Message = ({user, selectedUser}) => {
 	const [content, setContent] = useState("")
 	
-	const [sendMessage, {data, error, loading}] = useMutation(SEND_MESSAGE)
+	const [sendMessage, { data, error }] = useMutation(SEND_MESSAGE)
+	const newMessageHistory = useSelector(state => state.chatHistory.newMessages[selectedUser?.username])
+	const messageHistory = useSelector(state => state.chatHistory.messages[selectedUser?.username])
 
 	const dispatch = useDispatch()
+	const client = useApolloClient()
 
+	useEffect(() => {
+		console.log({messagehis: messageHistory})
+		console.log({newmessagehis: newMessageHistory})
+
+	}, [messageHistory, newMessageHistory])
 	useEffect(() => {
 		if (error) {
 
 		}
 		if (data) {
-			console.log({data})
 			dispatch(addMessage({ user: selectedUser.username, message: data.sendMessage }))
+			dispatch(addNewMessage({ user: selectedUser.username, message: data.sendMessage }))
+
+			// todo: data isn't being cached. do something with the data to store it in cache 
+			client.writeFragment({
+				id: "newMessages",
+				fragment: gql`
+					fragment NewMessage on Message {
+						content 
+						from 
+						to 
+						createdAt
+						__typename
+					}
+				`,
+				data: {
+					...data.sendMessage
+				}
+			})
+
 		}
 	}, [data, error])
 
