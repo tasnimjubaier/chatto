@@ -31,15 +31,6 @@ export const QueryResolver = {
 
 		return messages
 	},
-	reactions: async (_, __, {db}) => {
-		const Reaction = db.collection('reactions')
-
-		const cursor = await Reaction.find({}) as any
-
-		const reactions = cursor.toArray()
-
-		return reactions
-	},
 	login: async (_, {username, password}, {db}) => {
 			const User = db.collection('users')
 			const cursor = await User.findOne({username}) as any
@@ -79,10 +70,43 @@ export const UserResolver = {
 		const token =  jwt.sign({username: parent.username}, process.env.JWT_SECRET)
 
 		return token 
+	},
+	contacts: async (parent, payload, context) => {
+		return null
+	},
+	messages: async (parent, {otherUser}, {db}) => {
+		const user = parent.username
+		const Message = db.collection("messages")
+
+		const cursor = await Message.find({
+			$or: [{from: user, to: otherUser}, {from : otherUser, to : user}]
+		}).sort({createdAt: 1}) as any
+
+		const messages = cursor.toArray()
+
+		return messages
+	},
+	lastMessage: async (parent, {otherUser}, {db}) => {
+		const user = parent.username
+		const Message = db.collection("messages")
+
+		const cursor = await Message.findOne({
+			$or: [{from: user, to: otherUser}, {from : otherUser, to : user}]
+		}).sort({createdAt: 1}) as any
+
+		return cursor
 	}
 }
 
 export const MessageResolver = {
-	
+	reactions: async ({_id}, __, {db}) => {
+		const Reaction = db.collection('reactions')
+
+		const cursor = await Reaction.find({_id}) as any
+
+		const reactions = cursor.toArray()
+
+		return reactions
+	}
 }
 

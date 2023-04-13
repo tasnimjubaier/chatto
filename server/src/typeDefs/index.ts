@@ -2,10 +2,9 @@
 
 export default `#graphql
   type Query {
-    users: [User!]
     user(username: String!) : User
+    users: [User!]
     messages(from: String! to: String!): [Message!]
-    reactions: [Reaction!]
     login(username: String! password: String!) : User
   }
 
@@ -24,6 +23,9 @@ export default `#graphql
     imageUrl: String 
     profileDescription: String
     token: String
+    contacts: [User!]
+    messages(otherUser: String!): [Message!]
+    lastMessage(otherUser: String!): Message
   }
 
   type Message {
@@ -31,9 +33,12 @@ export default `#graphql
     from: String!
     to: String!
     createdAt: String
+    seen: Boolean
+    reactions: [Reaction!]
   }
 
   type Reaction {
+    messageId: String!
     content: String!
     from: String!
   }
