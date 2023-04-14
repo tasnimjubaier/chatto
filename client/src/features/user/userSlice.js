@@ -1,5 +1,24 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
+
+// const userModel = {
+// 	username,
+// 	imageUrl, 
+// 	description, 
+// 	contacts: [
+// 		{
+// 			username,
+// 			imageUrl,
+// 			description,
+// 			lastMessage: {
+// 				...all 
+// 			},
+// 			messages: [
+// 				...all 
+// 			]
+// 		}
+// 	]
+// }
 
 const initialState = {
 	user: null, 
@@ -11,43 +30,68 @@ const slice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
-		login: (state, action) => {
-			localStorage.setItem('token', action.payload.token)
+		login: (state, action) => { //{ username, imageUrl, token, description }
+			const { username, imageUrl, token, description } = action.payload
+			localStorage.setItem('token', token)
 
 			state.user = {
-				username: action.payload.username,
-				// token: action.payload.token,
-				imageUrl: action.payload.imageUrl
+				...state.user,
+				username: username,
+				imageUrl: imageUrl,
+				description: description,
+				contacts: []
 			}
+		},
+		setContacts: (state, action) => { // { contacts }
+			let { contacts } = action.payload
+
+			state.user.contacts = contacts.map( contact => ({
+				...contact,
+				messages: []
+			}))
+		},
+		addContact: (state, action) => { // { username, imageUrl, description }
+			const { username, imageUrl, description, messages } = action.payload
+
+			state.user.contacts.push({
+				username,
+				imageUrl,
+				description,
+				messages: messages ? messages : []
+			})
+		},
+		setMessages: (state, action) => { // { username, messages }
+			const { username, messages } = action.payload
+
+			state.user.contacts = state.user.contacts.map( user => {
+				if (user.username !== username)
+					return user 
+				user.messages = messages
+				return user 
+			})
+		},
+		addMessage: (state, action) => { // { username, message }
+			const { username, message } = action.payload
+
+			state.user.contacts = state.user.contacts.map( user => {
+				if (user.username !== username)
+					return user
+				if(!user.messages) user.messages = []
+				user.messages.push(message)
+				return user 
+			})
+		},
+		setLastMessage: (state, action) => { // { username, lastMessage }
+			const { username, lastMessage } = action.payload
+
+			state.user.contacts = state.user.contacts.map( user => {
+				if (user.username !== username)
+					return user 
+				user.lastMessage = lastMessage
+				return user 
+			})
 		}
-	},
-	extraReducers: (builder) => {
-		builder
-			.addCase(addUser.fulfilled, (state, action) => {
-				state.user = action.payload 
-			})
-			.addCase(addUser.rejected, (state, action) => {
-				state.error = "error occured"
-			})
-			.addCase(findUser.fulfilled, (state, action) => {
-				state.user = action.user 
-			})
-			.addCase(findUser.rejected, (state, action) => {
-				state.error = "error occured"
-			})
 	}
-})
-
-export const addUser = createAsyncThunk('user/addUser', async (user) => {
-	// todo: add graphql request
-
-	// console.log(user)
-	return user 
-})
-
-export const findUser = createAsyncThunk('user/findUser', async (username) => {
-	// todo: add gql request
-	return { username, token: '123' }
 })
 
 export const { login } = slice.actions
