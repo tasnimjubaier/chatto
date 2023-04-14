@@ -10,14 +10,17 @@ import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { MongoClient, ServerApiVersion } from "mongodb";
 import * as dotenv from 'dotenv';
+import DataLoader from "dataloader"
+import _ from 'lodash'
 
 import typeDefs from './typeDefs/index.js';
 import resolvers from './resolvers/index.js';
+// import { contactsLoader, lastMessageLoader, messagesLoader } from './middleware/context.js';
+
 
 dotenv.config();
 
 const uri = process.env.MONGODB_CONNECTION_URI;
-console.log("uri is here", {uri, db: process.env.DB_NAME})
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const app = express();
@@ -80,8 +83,118 @@ async function connectToDatabase() {
 const db = await connectToDatabase()
 
 
+export const contactsLoader = new DataLoader(async ( users ) => {
+  const Message = db.collection('messages')
+
+  console.log('contacts is calling messages collection from User Resolver')
+
+  const messages = await Message.find({ $or: [{ from : { $in : users }}, { to : { $in : users }}]})
+                          .sort({ createdAt : 1 }).toArray()
+
+  const filtered = messages.map( message => ({
+    from: message.from,
+    to: message.to
+  }))
+
+  let mapping = {}
+  filtered.forEach( message => {
+    const { from, to } = message 
+    if ( mapping[from] == null ) mapping[from] = []
+    mapping[from].push(to)
+    if ( mapping[to] == null ) mapping[to] = []
+    mapping[to].push(from)
+  })
+
+  const keys = Object.keys(mapping)
+
+  keys.forEach( key => {
+    let arr = mapping[key]
+    arr = _.uniq(arr)
+    arr = arr.map( (itm: any) => ({ username: itm }))
+    mapping[key] = arr 
+  })
+
+  const result = users.map( (user : string) => mapping[user] )
+  return result
+})
+
+export const messagesLoader = new DataLoader(async ( keys : [key : {user : any , otherUser : any}] ) => { // [ { user, otherUser} ] 
+  const Message = db.collection('messages')
+	const lista = keys.map(({ user: from, otherUser: to }) => {
+		return { from, to }
+	})
+	const listb = keys.map(({ user: from, otherUser: to }) => {
+		return { from : to, to : from }
+	})
+	const merged = [ ...lista, ...listb ]
+
+  console.log('messages is calling messages collection from User Resolver')
+
+  const messages = await Message.find( {
+    $or: merged
+  }).sort({ createdAt: 1}).toArray()
+
+  const grouped = _.groupBy(messages, (message) => {
+    let str : string
+    if (message.from < message.to)
+      str = `${message.to}:${message.from}`
+    else 
+      str = `${message.from}:${message.to}`
+    return str
+  })
+
+  const result = keys.map(({ user: from, otherUser: to }) => {
+    let str : string
+    if (from < to)
+      str = `${to}:${from}`
+    else 
+      str = `${from}:${to}`
+    
+    return grouped[str]
+  })
+	return result
+})
+
+export const lastMessageLoader = new DataLoader(async (keys) => { // [ { user, otherUser} ] 
+  const Message = db.collection('messages')
+  const lista = keys.map(({ user: from, otherUser: to }) => {
+		return { from, to }
+	})
+	const listb = keys.map(({ user: from, otherUser: to }) => {
+		return { from : to, to : from }
+	})
+	const merged = [ ...lista, ...listb ]
+
+  console.log('lastMessage is calling messages collection from User Resolver')
+  
+  const messages = await Message.find( {
+    $or: merged
+  }).sort({ createdAt: -1}).toArray()
+
+  const grouped = _.groupBy(messages, (message) => {
+    let str : string
+    if (message.from > message.to)
+      str = `${message.to}:${message.from}`
+    else 
+      str = `${message.from}:${message.to}`
+    return str
+  })
+
+  const result = keys.map(({ user: from, otherUser: to }) => {
+    let str : string
+    if (from > to)
+      str = `${to}:${from}`
+    else 
+      str = `${from}:${to}`
+    
+    return grouped[str] ? ( grouped[str].length !== 0 ? grouped[str][0] : null ) : null
+  })
+	return result 
+})
 
 app.use("/holdit", (req, res) => {
+  console.log({req})
+  console.log({res})
   res.end("hold it.")
 })
 
@@ -91,7 +204,8 @@ app.use(
   bodyParser.json(),
   expressMiddleware(server, {
     context: async ({ req }) => {
-      return { token: req.headers.authorization, db }
+      const loaders = { contactsLoader, messagesLoader, lastMessageLoader }
+      return { token: req.headers.authorization, db, loaders }
     },
   }),
 );
