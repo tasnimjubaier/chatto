@@ -90,9 +90,26 @@ const slice = createSlice({
 				user.lastMessage = lastMessage
 				return user 
 			})
+		},
+		makeLastMessageSeen: (state, action) => { // {username}
+			const { username } = action.payload
+			state.user.contacts = state.user.contacts.map( user => {
+				if (user.username !== username)
+					return user 
+				user.lastMessage.seen = true
+				return user 
+			})
 		}
 	}
 })
 
-export const { login } = slice.actions
+export const { 
+	login, 
+	setContacts, 
+	addContact, 
+	setMessages, 
+	addMessage, 
+	setLastMessage, 
+	makeLastMessageSeen 
+} = slice.actions
 export default slice.reducer
