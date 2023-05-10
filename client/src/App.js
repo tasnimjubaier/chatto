@@ -6,6 +6,9 @@ import Signup from "./pages/Signup";
 import Chat from "./pages/Chat";
 import Box from "./components/Box";
 import './App.css'
+import Call from "./components/Call/Call";
+import Feed from "./components/Feed";
+import Root from "./components/Root";
 
 function App() {
   const user = useSelector(state => state.user.user)
@@ -13,10 +16,12 @@ function App() {
   return (
     <div className="App">
       {user ? 
-        <Box user={user}/> : 
+        <Root user={user}/> : 
         // <Signup />
         // <Box />
         <Login />
+        // <Call />
+        // <Feed />
         // <Counter />
       }
     </div>

@@ -2,16 +2,16 @@ import React from 'react'
 
 import styles from './index.module.css'
 
-const Options = () => {
+const Options = ({onSelectOption}) => {
 	return (
 		<div className={styles['options']}>
 			<ul className={styles['list']}>
-				<li className={styles['item']}>Home</li>
-				<li className={styles['item']}>Users</li> 
-				<li className={styles['item']}>Groups</li>
-				<li className={styles['item']}>Reels</li>
-				<li className={styles['item']}>Events</li>
-				<li className={styles['item']}>Topics</li>
+				<li className={styles['item']} onClick={() => onSelectOption('home')}>Home</li>
+				<li className={styles['item']} onClick={() => onSelectOption('reels')}>Reels</li>
+				<li className={styles['item']} onClick={() => onSelectOption('users')}>Users</li> 
+				<li className={styles['item']} onClick={() => onSelectOption('chats')}>Chats</li>
+				<li className={styles['item']} onClick={() => onSelectOption('groups')}>Groups</li>
+				<li className={styles['item']} onClick={() => onSelectOption('events')}>Events</li>
 			</ul>
 		</div>
 	)

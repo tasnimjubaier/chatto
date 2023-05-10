@@ -6,12 +6,12 @@ import Options from './Options'
 import styles from './index.module.css'
 
 
-const NavigationPanel = () => {
+const NavigationPanel = ({onSelectOption}) => {
 	
 	return (
 		<div className={styles['navigation-panel-wrapper']}>
 			<Logo />
-			<Options />
+			<Options onSelectOption={onSelectOption}/>
 			<Settings />
 		</div>
 	)

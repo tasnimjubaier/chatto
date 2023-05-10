@@ -34,3 +34,7 @@
 	user-select: none;
 	cursor: pointer;
 }
+
+.item:focus {
+	background-color: red;
+}
