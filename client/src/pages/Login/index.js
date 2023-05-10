@@ -41,6 +41,13 @@ const Login = () => {
     }
   }, [error, data])
 
+
+  const handleOnKeyDown = (e) => {
+		if (e.key === 'Enter') {
+      handleLogin()
+    }
+	}
+
   const handleLogin = () => {
     if (name === "") {
       setNameMessage("enter name")
@@ -72,7 +79,7 @@ const Login = () => {
         </div>
         <div className='input-div password-div'>
           <label for="password">Password</label>
-          <input className='password' type='password' id='password' placeholder='password' 
+          <input className='password' type='password' id='password' placeholder='password' onKeyDown={handleOnKeyDown}
             onChange={ e => { setPassword(e.target.value); setMessage(""); setNameMessage(""); setPasswordMessage("") } } />
           <small style={{color: 'red'}}>{passwordMessage}</small>
         </div>
