@@ -37,11 +37,33 @@ export const GET_MESSAGES = gql`
 		}
 	}
 `
-
 export const SEND_MESSAGE = gql`
 	mutation sendMessage($content: String!, $from: String!, $to: String!){
 		sendMessage(content: $content, from: $from, to: $to) {
 			content from to createdAt
+		}
+	}
+`
+
+export const GET_POSTS = gql`
+	query Posts($username: String!, $index: Int!, $limit: Int!) {
+		posts(username: $username, index: $index, limit: $limit) {
+			_id
+			postedBy
+			postedAt
+			title
+			description
+		}
+	}
+`
+export const CREATE_POST = gql`
+	mutation Mutation($postedBy: String!, $title: String!, $description: String!) {
+		createPost(postedBy: $postedBy, title: $title, description: $description) {
+			_id
+			postedBy
+			postedAt
+			title
+			description
 		}
 	}
 `

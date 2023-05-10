@@ -8,6 +8,9 @@ const CreatePost = () => {
   const handlePost = () => {
     console.log(text)
 
+    
+
+
     setText("")
   }
 
