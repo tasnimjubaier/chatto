@@ -6,12 +6,14 @@ export default `#graphql
     users: [User!]
     messages(from: String! to: String!): [Message!]
     login(username: String! password: String!) : User
+    posts(username: String! index: Int! limit: Int!): [Post!]
   }
 
   type Mutation {
     registerUser(username: String! password: String! confirmPassword: String!): User!
     sendMessage(content: String! from: String! to: String!): Message!
     addReaction(message: String! by: String!): Reaction!
+    createPost(postedBy: String! title: String! description: String!): Post!
   }
 
   type Subscription {
@@ -41,5 +43,13 @@ export default `#graphql
     messageId: String!
     content: String!
     from: String!
+  }
+
+  type Post {
+    _id: String!
+    postedBy: String!
+    postedAt: String!
+    title: String!
+    description: String!
   }
 `

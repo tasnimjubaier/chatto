@@ -32,6 +32,17 @@ export const QueryResolver = {
 
 		return messages
 	},
+	posts: async (_, {username, index, limit}, {db}) => {
+		const Post = db.collection("posts")
+
+		const cursor = await Post.find().sort({postedAt: -1}).skip((index-1)*limit).limit(limit) as any
+
+		const posts = await cursor.toArray()
+
+		console.log({posts})
+
+		return posts
+	},
 	login: async (_, {username, password}, {db}) => {
 			const User = db.collection('users')
 			const cursor = await User.findOne({username}) as any

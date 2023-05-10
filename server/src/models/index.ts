@@ -22,6 +22,28 @@ const user = new Schema({
 	}
 })
 
+const post = new Schema({
+	_id: {
+		type: Schema.Types.ObjectId 
+	},
+	postedBy: {
+		type: String,
+		required: true 
+	},
+	postedAt: {
+		type: String,
+		required: true
+	},
+	title: {
+		type: String,
+		required: true 
+	},
+	description: {
+		type: String,
+		required: true 
+	},
+})
+
 const message = new Schema({
 	_id: {
 		type: Schema.Types.ObjectId 
@@ -76,5 +98,6 @@ const group = new Schema({
 
 export const User = model("User", user)
 export const Message = model("Message", message)
+export const Post = model("Post", post)
 export const Reaction = model("Reaction", reaction)
 export const Group = model("Group", group)
