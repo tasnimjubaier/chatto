@@ -1,16 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import styles from './index.module.css'
+import { useMutation } from '@apollo/client'
+import { CREATE_POST } from '../../../utils/queries'
+import { useDispatch } from 'react-redux'
+import { addPost } from '../../../features/posts/postsSlice'
 
 const CreatePost = () => {
   const [text, setText] = useState("")
 
+  const [createPost, {data, error}] = useMutation(CREATE_POST)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(error) {
+      return 
+    }
+    if(data) {
+      console.log({data})
+      dispatch(addPost({post : data.createPost}))
+    }
+  }, [data, error])
+
+
   const handlePost = () => {
     console.log(text)
 
+    createPost({ variables: {
+      postedBy: "Anik",
+      title: "A new Title",
+      description: text
+    }})
     
-
-
     setText("")
   }
 

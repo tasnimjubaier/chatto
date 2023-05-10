@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState = {
-	posts: null, 
+	posts: [], 
 	state: 'idle',
 	error: null 
 }
@@ -12,12 +12,12 @@ const slice = createSlice({
 	initialState,
 	reducers: {
     setPosts: (state, action) => { // {posts}
-
-      console.log(action.payload)
+			console.log('inside posts slice')
+      console.log(action.payload.posts)
       state.posts = action.payload.posts 
     },
     addPost: (state, action) => { // {post}
-			console.log({post : action.payload})
+			console.log({post : action.payload.post})
 			state.posts.push(action.payload.post)
 		}
 	},

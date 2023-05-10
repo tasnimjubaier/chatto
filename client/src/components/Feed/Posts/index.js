@@ -8,13 +8,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setPosts } from '../../../features/posts/postsSlice'
 
 const Posts = () => {
-  const posts = useSelector(state => state.posts.posts)
+  const posts = useSelector(state => state.posts?.posts)
 	const [getPosts, {data, error, loading }] = useLazyQuery(GET_POSTS)
 
 	const dispatch = useDispatch()
 
 
   useEffect(() => {
+    console.log('here in th fuc')
     getPosts({variables: {
       username: "Anik",
       index: 1,
@@ -23,19 +24,21 @@ const Posts = () => {
   }, [getPosts])
 
   useEffect(() => {
+    console.log({data})
     if (error) {
 			return 
 		}
 		if (data) {
-			dispatch(setPosts({posts: data}))
+      console.log('dispatching...')
+			dispatch(setPosts({posts: data.posts}))
 		}
   }, [data, error])
 
   return (
     <div className={styles['wrapper']}>
       {error && error}
-      {posts.map(post => (
-        <Post post={post} />
+      {posts && posts.map((post, key) => (
+        <Post post={post} key={key}/>
       ))}
     </div>
   )
