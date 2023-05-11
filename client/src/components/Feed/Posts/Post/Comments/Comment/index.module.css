@@ -1,0 +1,32 @@
+.wrapper {
+	width: 600px;
+  max-height: auto;
+  
+  display: flex;
+  flex-direction: column;
+  /* align-items: left; */
+	/* margin: 20px; */
+	padding: 20px;
+	background-color: white;
+}
+
+.top {
+	width:100%;
+	height: 100%;
+}
+
+.posted-by {
+	font-size: 16px;
+	font-weight: 500;
+}
+
+.posted-at {
+	font-size: 9px;
+	font-weight: 400;
+}
+
+.comment {
+	margin-top: 5px;
+	font-size: 14px;
+	font-weight: 400;
+}

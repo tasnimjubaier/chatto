@@ -38,7 +38,7 @@ const Posts = () => {
     <div className={styles['wrapper']}>
       {error && error}
       {posts && posts.map((post, key) => (
-        <Post post={post} key={key}/>
+        <Post post={post} key={key} id={key}/>
       ))}
     </div>
   )

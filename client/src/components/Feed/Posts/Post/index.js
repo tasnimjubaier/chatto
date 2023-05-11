@@ -4,13 +4,13 @@ import Comments from './Comments'
 
 import styles from './index.module.css'
 
-const Post = ({post}) => {
+const Post = ({post, id}) => {
   console.log({post})
 
   return (
     <div className={styles['wrapper']}>
-      <Body />
-      <Comments />
+      <Body post={post}/>
+      <Comments postId={id}/>
     </div>
   )
 }

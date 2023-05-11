@@ -6,16 +6,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import Comment from './Comment'
 
 const Comments = ({postId}) => {
-  // const comments = useSelector(state => state.posts?.posts[postId]?.comments)
+  const comments = useSelector(state => state.posts.posts[postId].comments)
 
 	const dispatch = useDispatch()
 
   return (
     <div className={styles['wrapper']}>
-      {/* {comments && comments.map((comment, key) => (
-        <Comment comment={comment.commentId} />
-      ))} */}
-      <Comment />
+      {comments && comments.map((comment, key) => (
+        <Comment key={key} comment={comment} />
+      ))}
     </div>
   )
 }
