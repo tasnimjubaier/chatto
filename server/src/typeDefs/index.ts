@@ -64,6 +64,7 @@ export default `#graphql
     postedBy: String!
     postedAt: String!
     content: String!
+    parentId: String!
     reactions: [User!]
     replies: [Comment!]
   }
