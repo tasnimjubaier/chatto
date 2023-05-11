@@ -5,7 +5,6 @@ import Comments from './Comments'
 import styles from './index.module.css'
 
 const Post = ({post, id}) => {
-  console.log({post})
 
   return (
     <div className={styles['wrapper']}>

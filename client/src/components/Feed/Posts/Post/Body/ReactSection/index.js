@@ -4,7 +4,7 @@ import styles from './index.module.css'
 import { useLazyQuery } from '@apollo/client'
 import { useDispatch, useSelector } from 'react-redux'
 
-const ReactSection = ({reactions}) => {
+const ReactSection = ({reactions, toggleShowAddCommentSection}) => {
   const posts = useSelector(state => state.posts?.posts)
 
 	const dispatch = useDispatch()
@@ -16,7 +16,7 @@ const ReactSection = ({reactions}) => {
       </div>
       <div className={styles['button-control']}>
         <button className={styles['react-button']}>React</button>
-        <button className={styles['comment-button']}>Comment</button>
+        <button className={styles['comment-button']} onClick={toggleShowAddCommentSection}>Comment</button>
         <button className={styles['share-button']}>Share</button>
       </div>
     </div>

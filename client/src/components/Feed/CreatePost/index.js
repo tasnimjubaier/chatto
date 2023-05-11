@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react'
 import styles from './index.module.css'
 import { useMutation } from '@apollo/client'
 import { CREATE_POST } from '../../../utils/queries'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addPost } from '../../../features/posts/postsSlice'
 
 const CreatePost = () => {
   const [text, setText] = useState("")
 
+  const user = useSelector(state => state.user.user)
   const [createPost, {data, error}] = useMutation(CREATE_POST)
 
   const dispatch = useDispatch()
@@ -28,7 +29,7 @@ const CreatePost = () => {
     console.log(text)
 
     createPost({ variables: {
-      postedBy: "Anik",
+      postedBy: user.username,
       title: "A new Title",
       description: text
     }})

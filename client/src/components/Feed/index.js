@@ -6,7 +6,7 @@ import Posts from './Posts'
 
 
 
-const Feed = ({user}) => {
+const Feed = () => {
   return (
     <div className={styles['wrapper']}>
       <CreatePost />

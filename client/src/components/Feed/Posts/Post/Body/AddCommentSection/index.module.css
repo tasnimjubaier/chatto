@@ -1,0 +1,36 @@
+.wrapper {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hide {
+	display: none;
+}
+
+.show {
+	display: block;
+}
+
+.input {
+	margin-top: 5px;
+	width: 100%;
+	height: 80px;
+	margin-bottom: 0;
+}
+
+.post-button {
+	width: 100%;
+	height: 30px;
+	margin-top: 0;
+	border: none;
+	background-color: aquamarine;
+	cursor: pointer;
+}
+
+.post-button:hover {
+	background-color: rgb(170, 255, 227);
+}

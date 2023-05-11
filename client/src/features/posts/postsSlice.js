@@ -18,10 +18,23 @@ const slice = createSlice({
     },
     addPost: (state, action) => { // {post}
 			console.log({post : action.payload.post})
-			state.posts.push(action.payload.post)
+			state.posts.unshift(action.payload.post)
+		},
+		addComment: (state, action) => { // {content, parentId, postedBy, postedAt}
+			state.posts = state.posts.map(post => {
+				console.log({haga: post})
+				if(post._id != action.payload.parentId) return post
+
+				post.comments.push({
+					content: action.payload.parentId,
+					postedBy: action.payload.postedBy,
+					postedAt: action.payload.postedAt
+				})
+				return post 
+			})
 		}
 	},
 })
 
-export const { setPosts, addPost } = slice.actions
+export const { setPosts, addPost, addComment } = slice.actions
 export default slice.reducer

@@ -6,13 +6,13 @@ import Content from '../Content'
 
 
 
-const Root = ({user}) => {
+const Root = () => {
   const [selectedOption, setSelectedOption] = useState('home')
   
   return (
     <div className='box-wrapper'>
-			<NavigationPanel user={user} onSelectOption={option => setSelectedOption(option)}/>
-			<Content selectedOption={selectedOption} user={user}/>
+			<NavigationPanel onSelectOption={option => setSelectedOption(option)}/>
+			<Content selectedOption={selectedOption}/>
     </div>
   )
 }

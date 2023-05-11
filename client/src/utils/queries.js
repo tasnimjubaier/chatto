@@ -92,6 +92,7 @@ export const CREATE_COMMENT_OR_REPLY = gql`
 			postedBy
 			postedAt
 			content
+			parentId
 		}
 	}
 `
