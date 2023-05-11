@@ -32,7 +32,7 @@ const Posts = () => {
       console.log('dispatching...')
 			dispatch(setPosts({posts: data.posts}))
 		}
-  }, [data, error])
+  }, [data, error, dispatch])
 
   return (
     <div className={styles['wrapper']}>
