@@ -66,16 +66,30 @@ export const MutationResolver = {
 		const result = await Post.insertOne(post)
 		return post
 	},
-	addReaction: async (_, {message, by}, {db}) => {
-		const reactionCollection = db.collection("reactions")
+	createCommentOrReply: async (_, {postedBy, content, parentId}, {db}) => {
+		const Comment = db.collection("comments")
+
+		const comment = {
+			postedBy,
+			postedAt: new Date().toISOString(),
+			content, 
+			parentId
+		}
+
+		const result = await Comment.insertOne(comment)
+		return comment
+	},
+	addReaction: async (_, {createdBy, content, parentId}, {db}) => {
+		const Reaction = db.collection("reactions")
 
 		const reaction = {
-			content: message,
-			from : by 
+			createdBy,
+			createdAt: new Date().toISOString(),
+			content,
+			parentId
 		}
 		
-		const result = await reactionCollection.insertOne(reaction)
-
+		const result = await Reaction.insertOne(reaction)
 		return reaction 
 	}
 }

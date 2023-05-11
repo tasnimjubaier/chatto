@@ -38,9 +38,6 @@ export const QueryResolver = {
 		const cursor = await Post.find().sort({postedAt: -1}).skip((index-1)*limit).limit(limit) as any
 
 		const posts = await cursor.toArray()
-
-		console.log({posts})
-
 		return posts
 	},
 	login: async (_, {username, password}, {db}) => {
@@ -103,9 +100,6 @@ export const UserResolver = {
 		// 	index === self.findIndex((t) => (
 		// 		t.username === obj.username
 		// 	))
-		// )
-
-		// console.log('contacts is calling messages collection from User Resolver')
 		//#endregion
 
 		return users
@@ -118,7 +112,6 @@ export const UserResolver = {
 		
 		//#region without dataloader /// 1200ms 
 		// const Message = db.collection("messages")
-		// console.log('messages is calling messages collection from User Resolver')
 
 		// const cursor = await Message.find({
 		// 	$or: [{ from: user, to: otherUser }, { from : otherUser, to : user }]
@@ -135,7 +128,6 @@ export const UserResolver = {
 		const lastMessage = loaders.lastMessageLoader.load({ user, otherUser })
 
 		//#region without dataloader /// 515ms
-		// console.log('lastMessage is calling messages collection from User Resolver')
 		// const Message = db.collection("messages")
 		// const lastMessage = await Message.findOne({
 		// 	$or: [{from: user, to: otherUser}, {from : otherUser, to : user}]
@@ -148,13 +140,44 @@ export const UserResolver = {
 
 export const MessageResolver = {
 	reactions: async ({_id}, __, {db}) => {
-		const Reaction = db.collection('reactions')
-
-		const cursor = await Reaction.find({_id}) as any
-
-		const reactions = cursor.toArray()
-
-		return reactions
+		const id = _id.toString()
+		// #region without using dataloader /// 762ms
+		const Reaction = db.collection("reactions")
+		const result = await Reaction.find({parentId : id}).toArray() as any 
+		return result
 	}
 }
 
+export const PostResolver = {
+	reactions: async ({_id}, _, {db}) => {
+		const id = _id.toString()
+		// #region without using dataloader /// 762ms
+		const Reaction = db.collection("reactions")
+		const result = await Reaction.find({parentId : id}).toArray() as any 
+		return result
+	},
+	comments: async ({_id}, _, {db}) => {
+		const id = _id.toString()
+		// #region without using dataloader /// 762ms
+		const Comment = db.collection("comments")
+		const result = await Comment.find({parentId : id}).toArray() as any 
+		return result
+	}
+}
+
+export const CommentResolver = {
+	reactions: async ({_id}, _, {db}) => {
+		const id = _id.toString()
+		// #region without using dataloader /// 762ms
+		const Reaction = db.collection("reactions")
+		const result = await Reaction.find({parentId : id}).toArray() as any 
+		return result
+	},
+	replies: async ({_id}, _, {db}) => {
+		const id = _id.toString()
+		// #region without using dataloader /// 762ms
+		const Comment = db.collection("comments")
+		const result = await Comment.find({parentId : id}).toArray() as any 
+		return result
+	}
+}

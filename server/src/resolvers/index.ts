@@ -1,4 +1,4 @@
-import { MessageResolver, QueryResolver, UserResolver } from "./query.js"
+import { CommentResolver, MessageResolver, PostResolver, QueryResolver, UserResolver } from "./query.js"
 import { MutationResolver, SubscriptionResolver } from "./mutation.js"
 
 
@@ -17,6 +17,12 @@ export default {
   },
   Message: {
     ...MessageResolver
+  },
+  Post: {
+    ...PostResolver
+  },
+  Comment: {
+    ...CommentResolver
   }
 }
 

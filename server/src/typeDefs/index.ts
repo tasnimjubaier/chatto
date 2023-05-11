@@ -12,8 +12,9 @@ export default `#graphql
   type Mutation {
     registerUser(username: String! password: String! confirmPassword: String!): User!
     sendMessage(content: String! from: String! to: String!): Message!
-    addReaction(message: String! by: String!): Reaction!
     createPost(postedBy: String! title: String! description: String!): Post!
+    createCommentOrReply(postedBy: String! content: String! parentId: String!) : Comment!
+    addReaction(createdBy: String! content: String! parentId: String!): Reaction!
   }
 
   type Subscription {
@@ -31,6 +32,7 @@ export default `#graphql
   }
 
   type Message {
+    _id: String!
     content: String!
     from: String!
     to: String!
@@ -40,9 +42,11 @@ export default `#graphql
   }
 
   type Reaction {
-    messageId: String!
+    _id: String!
+    createdBy: String!
+    createdAt: String!
     content: String!
-    from: String!
+    parentId: String!
   }
 
   type Post {
@@ -51,5 +55,16 @@ export default `#graphql
     postedAt: String!
     title: String!
     description: String!
+    reactions: [User!]
+    comments: [Comment!]
+  }
+
+  type Comment {
+    _id: String!
+    postedBy: String!
+    postedAt: String!
+    content: String!
+    reactions: [User!]
+    replies: [Comment!]
   }
 `
