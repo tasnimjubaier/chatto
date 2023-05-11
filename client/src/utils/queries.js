@@ -46,13 +46,30 @@ export const SEND_MESSAGE = gql`
 `
 
 export const GET_POSTS = gql`
-	query Posts($username: String!, $index: Int!, $limit: Int!) {
+	query Query($username: String!, $index: Int!, $limit: Int!) {
 		posts(username: $username, index: $index, limit: $limit) {
 			_id
 			postedBy
 			postedAt
 			title
 			description
+			reactions {
+				username
+			}
+			comments {
+				content
+				_id
+				postedAt
+				postedBy
+				reactions {
+					username
+				}
+				replies {
+					content
+					postedBy
+					postedAt
+				}
+			}
 		}
 	}
 `
@@ -64,6 +81,29 @@ export const CREATE_POST = gql`
 			postedAt
 			title
 			description
+		}
+	}
+`
+
+export const CREATE_COMMENT_OR_REPLY = gql`
+	mutation Mutation($postedBy: String!, $content: String!, $parentId: String!) {
+		createCommentOrReply(postedBy: $postedBy, content: $content, parentId: $parentId) {
+			_id
+			postedBy
+			postedAt
+			content
+		}
+	}
+`
+
+export const ADD_REACTION = gql`
+	mutation Mutation($createdBy: String!, $content: String!, $parentId: String!) {
+		addReaction(createdBy: $createdBy, content: $content, parentId: $parentId) {
+			_id
+			createdBy
+			createdAt
+			content
+			parentId
 		}
 	}
 `
