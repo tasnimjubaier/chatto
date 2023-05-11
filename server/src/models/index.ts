@@ -41,7 +41,43 @@ const post = new Schema({
 	description: {
 		type: String,
 		required: true 
+	}
+})
+
+const comment = new Schema({
+	_id: {
+		type: Schema.Types.ObjectId
 	},
+	postedBy: {
+		type: String,
+		required: true 
+	},
+	postedAt: {
+		type: String, 
+		required: true
+	},
+	parentId: {
+		type: Schema.Types.ObjectId,
+		required: true
+	}
+})
+
+const reaction = new Schema({
+	_id: {
+		type: Schema.Types.ObjectId 
+	},
+	content: {
+		type: String,
+		required: true
+	},
+	from: {
+		type: String, 
+		required: true 
+	},
+	parentId: {
+		type: Schema.Types.ObjectId,
+		required: true
+	}
 })
 
 const message = new Schema({
@@ -66,21 +102,6 @@ const message = new Schema({
 	}
 })
 
-const reaction = new Schema({
-	_id: {
-		type: Schema.Types.ObjectId 
-	},
-	content: {
-		type: String,
-		required: true
-	},
-	from: {
-		type: String, 
-		required: true 
-	},
-	ref: 'message'
-})
-
 const group = new Schema({
 	_id: {
 		type: Schema.Types.ObjectId 
@@ -101,3 +122,4 @@ export const Message = model("Message", message)
 export const Post = model("Post", post)
 export const Reaction = model("Reaction", reaction)
 export const Group = model("Group", group)
+export const Comment = model("Comment", comment)
