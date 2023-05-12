@@ -55,6 +55,7 @@ export const GET_POSTS = gql`
 			description
 			reactions {
 				content
+				createdBy
 			}
 			comments {
 				content

@@ -6,15 +6,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ADD_REACTION, REMOVE_REACTION } from '../../../../../../utils/queries'
 import { addReaction as addReactionSlice, removeReaction as removeReactionSlice } from '../../../../../../features/posts/postsSlice'
 
-const ReactSection = ({post, toggleShowAddCommentSection}) => {
-  const [reacted, setReacted] = useState(false)
+const ReactSection = ({post, toggleShowAddCommentSection}) => { // post._id 
   const reactions = post.reactions
   const user = useSelector(state => state.user.user)
+  const reacted = useSelector(state => {
+    const p = state.posts.posts.filter(p => p._id == post._id)
+    if(p[0] == undefined) return null
+    console.log({p : p[0]})
+    console.log(post._id)
+    const r = p[0].reactions.filter(r => r.createdBy == user.username)
+    return r[0]
+  })
 
   const [addReaction, {data: addReactionData, error: addReactionError}] = useMutation(ADD_REACTION)
   const [removeReaction, {data: removeReactionData, error: removeReactionError}] = useMutation(REMOVE_REACTION)
 	const dispatch = useDispatch()
 
+  console.log({reacted})
 
   useEffect(() => {
     if(addReactionError) {
@@ -53,7 +61,7 @@ const ReactSection = ({post, toggleShowAddCommentSection}) => {
         parentId: post._id
       }})
     }
-    setReacted(!reacted)
+    // setReacted(!reacted)
   }
 
   return (
@@ -62,7 +70,7 @@ const ReactSection = ({post, toggleShowAddCommentSection}) => {
         {reactions.length ? reactions.length : "no"} reactions
       </div>
       <div className={styles['button-control']}>
-        <button className={`${styles['react-button']} ${reacted ? styles['reacted']: ''}`}
+        <button className={`${styles['react-button']} ${reacted ? styles['reacted']: styles['react']}`}
           onClick={handleReactClick} >{reacted ? "Reacted" : "React"}</button>
         <button className={styles['comment-button']} onClick={toggleShowAddCommentSection}>Comment</button>
         <button className={styles['share-button']}>Share</button>
