@@ -55,7 +55,7 @@ export default `#graphql
     postedAt: String!
     title: String!
     description: String!
-    reactions: [User!]
+    reactions: [Reaction!]
     comments: [Comment!]
   }
 
@@ -65,7 +65,7 @@ export default `#graphql
     postedAt: String!
     content: String!
     parentId: String!
-    reactions: [User!]
+    reactions: [Reaction!]
     replies: [Comment!]
   }
 `
