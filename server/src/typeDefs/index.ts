@@ -15,6 +15,7 @@ export default `#graphql
     createPost(postedBy: String! title: String! description: String!): Post!
     createCommentOrReply(postedBy: String! content: String! parentId: String!) : Comment!
     addReaction(createdBy: String! content: String! parentId: String!): Reaction!
+    removeReaction(createdBy: String! parentId: String!) : Reaction!
   }
 
   type Subscription {

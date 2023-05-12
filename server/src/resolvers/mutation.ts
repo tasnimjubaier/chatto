@@ -91,6 +91,13 @@ export const MutationResolver = {
 		
 		const result = await Reaction.insertOne(reaction)
 		return reaction 
+	},
+	removeReaction: async (_, {createdBy, parentId}, {db}) => {
+		const Reaction = db.collection("reactions")
+		
+		const reaction = await Reaction.findOne({$and: [{createdBy}, {parentId}]}) as any
+		await Reaction.deleteOne({$and: [{createdBy}, {parentId}]})
+		return reaction 
 	}
 }
 
