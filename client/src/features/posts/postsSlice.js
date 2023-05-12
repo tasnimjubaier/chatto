@@ -31,7 +31,6 @@ const slice = createSlice({
 		},
 		addReaction: (state, action) => { // {content, parentId, createdBy, createdAt}
 			state.posts = state.posts.map(post => {
-				console.log({haga: post})
 				if(post._id != action.payload.parentId) return post
 
 				post.reactions.push({
