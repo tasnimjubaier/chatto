@@ -41,8 +41,6 @@ const Chats = ({selectedUser}) => {
 					return prev 
 
 				const newMessage = subscriptionData.data.sendMessage
-				// console.log({prev: prev.messages})
-				// console.log({newmsghis: newMessageHistory})
 				// const updated = {
 				// 	...prev,
 				// 	messages: newMessageHistory ? [ ...prev.messages, ...newMessageHistory, newMessage ] : [ ...prev.messages, newMessage ]
@@ -51,10 +49,7 @@ const Chats = ({selectedUser}) => {
 					...prev,
 					messages: [ ...prev.messages, newMessage ]
 				}
-				// console.log({updated: updated.messages})
-				// console.log({newHistoryThen: newMessageHistory})
 				// clearNewMessageHistory({ user: selectedUser.username })
-				// console.log({newMessageHistoryNow: newMessageHistory})
 				return updated
 			}
 		})

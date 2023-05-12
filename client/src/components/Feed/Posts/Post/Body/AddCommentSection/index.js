@@ -26,7 +26,6 @@ const AddCommentSection = ({post, show}) => {
 	}, [data, error])
 
 	const handlePost = () => {
-		// console.log(user)
 		createCommentOrReply({ variables: {
 			postedBy: user.username,
 			content: text,

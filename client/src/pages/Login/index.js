@@ -21,8 +21,6 @@ const Login = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log({networkStatus})
-    console.log({called})
   }, [called, networkStatus])
 
   useEffect(() => {

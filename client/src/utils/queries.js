@@ -54,7 +54,7 @@ export const GET_POSTS = gql`
 			title
 			description
 			reactions {
-				username
+				content
 			}
 			comments {
 				content
@@ -62,7 +62,7 @@ export const GET_POSTS = gql`
 				postedAt
 				postedBy
 				reactions {
-					username
+					content
 				}
 				replies {
 					content
@@ -100,6 +100,18 @@ export const CREATE_COMMENT_OR_REPLY = gql`
 export const ADD_REACTION = gql`
 	mutation Mutation($createdBy: String!, $content: String!, $parentId: String!) {
 		addReaction(createdBy: $createdBy, content: $content, parentId: $parentId) {
+			_id
+			createdBy
+			createdAt
+			content
+			parentId
+		}
+	}
+`
+
+export const REMOVE_REACTION = gql`
+	mutation Mutation($createdBy: String!, $parentId: String!) {
+		removeReaction(createdBy: $createdBy, parentId: $parentId) {
 			_id
 			createdBy
 			createdAt

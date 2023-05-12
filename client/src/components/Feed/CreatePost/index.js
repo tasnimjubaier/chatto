@@ -19,15 +19,12 @@ const CreatePost = () => {
       return 
     }
     if(data) {
-      console.log({data})
       dispatch(addPost({post : data.createPost}))
     }
   }, [data, error])
 
 
   const handlePost = () => {
-    console.log(text)
-
     createPost({ variables: {
       postedBy: user.username,
       title: "A new Title",

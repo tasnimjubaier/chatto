@@ -16,7 +16,7 @@ const Body = ({post}) => {
     <div className={styles['wrapper']}>
       <TitleSection postedBy={post.postedBy}/>
       <ContentSection content={post.description}/>
-      <ReactSection reactions={post.reactions} 
+      <ReactSection post={post} 
         toggleShowAddCommentSection={() => setShowAddCommentSection(!showAddCommentSection)}/>
       <AddCommentSection post={post} show={showAddCommentSection} />
     </div>

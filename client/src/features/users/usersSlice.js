@@ -12,7 +12,6 @@ const slice = createSlice({
 	initialState,
 	reducers: {
 		saveUsers: (state, action) => {
-			console.log({users : action.payload})
 			state.users = action.payload 
 		}
 	},
