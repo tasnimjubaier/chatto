@@ -15,6 +15,7 @@ import _ from 'lodash'
 
 import typeDefs from './typeDefs/index.js';
 import resolvers from './resolvers/index.js';
+import axios from 'axios';
 // import { contactsLoader, lastMessageLoader, messagesLoader } from './middleware/context.js';
 
 
@@ -196,6 +197,17 @@ app.use("/holdit", (req, res) => {
   console.log({req})
   console.log({res})
   res.end("hold it.")
+})
+
+app.use("/maps", async (req, res) => {
+  try {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    const url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=23.77260092510139%2C90.42584835709935&radius=500&type=restaurant&key=AIzaSyB4uuEF--sY1zEclPw845Fi8cNBTBHspNE"
+    const response = await axios.get(url)
+    res.send(response.data)
+  } catch (err) {
+    res.status(500).send(err.message)
+  }
 })
 
 app.use(
