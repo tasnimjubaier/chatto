@@ -15,7 +15,7 @@ const Box = ({user}) => {
 	
 	return (
 		<div className='box-wrapper'>
-			<NavigationPanel user={user}/>
+			{/* <NavigationPanel user={user}/> */}
 			<div className='left-panel'>
 				<Users user={user} onSelectUser={handleSelectUser}/>
 			</div>

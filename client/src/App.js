@@ -38,8 +38,8 @@ function App() {
         <Root user={user}/> : 
         // <Signup />
         // <Box />
-        // <Login />
-        <div> <button onClick={callPlacesapi}>call api</button></div>
+        <Login />
+        // <div> <button onClick={callPlacesapi}>call api</button></div>
         // <Call />
         // <Feed />
         // <Counter />

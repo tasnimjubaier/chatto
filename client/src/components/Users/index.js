@@ -12,7 +12,7 @@ const Users = ({user, onSelectUser}) => {
 	const {data, loading, error} = useQuery(GET_USERS)
 
   const dispatch = useDispatch()
-  const users = useSelector(state => state.users.users)
+  let users = useSelector(state => state.users.users)
 
   useEffect(() => {
     if(data) {
@@ -35,6 +35,7 @@ const Users = ({user, onSelectUser}) => {
 				{users && users.map((user, key) => (
 					<User key={key} user={user} userSelected={handleUserSelect} />
 				))}
+				<User user={{username: 'openai'}} userSelected={handleUserSelect} />
 			</div>
 		</div>
 	)

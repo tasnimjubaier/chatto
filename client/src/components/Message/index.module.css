@@ -67,3 +67,28 @@
   color:rgba(255, 255, 255, 0.8);
   cursor: pointer;
 }
+
+
+.loading {
+  position: absolute;
+  height: 30vh;
+  width: 600px;
+  top: 30vh;
+  left: 40vw;
+  margin: auto;
+  padding: 10px;
+  /* text-indent: 300px; */
+  text-align: justify;
+  overflow: auto;
+  
+  background: linear-gradient(45deg, #e6eff7, #e0fdff);
+  border-radius: 2%;
+
+  pointer-events: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: bold;
+}

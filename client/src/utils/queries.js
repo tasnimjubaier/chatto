@@ -74,6 +74,13 @@ export const GET_POSTS = gql`
 		}
 	}
 `
+
+export const OPENAI_CHAT = gql`
+	query Query($message: String!) {
+		openaiChat(message: $message)
+	}
+`
+
 export const CREATE_POST = gql`
 	mutation Mutation($postedBy: String!, $title: String!, $description: String!) {
 		createPost(postedBy: $postedBy, title: $title, description: $description) {

@@ -23,6 +23,8 @@
   align-items: center;
 	justify-content: left;
 
+  white-space: pre-line;
+
   padding: 10px 25px 10px 25px;
   margin: 10px;
   align-self: start;
