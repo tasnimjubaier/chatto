@@ -12,6 +12,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 import * as dotenv from 'dotenv';
 import DataLoader from "dataloader"
 import _ from 'lodash'
+import { Configuration, OpenAIApi } from "openai"
 
 import typeDefs from './typeDefs/index.js';
 import resolvers from './resolvers/index.js';
@@ -20,6 +21,12 @@ import axios from 'axios';
 
 
 dotenv.config();
+
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
 
 const uri = process.env.MONGODB_CONNECTION_URI;
 const schema = makeExecutableSchema({ typeDefs, resolvers });
@@ -199,6 +206,8 @@ app.use("/holdit", (req, res) => {
   res.end("hold it.")
 })
 
+
+
 app.use("/maps", async (req, res) => {
   try {
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -209,6 +218,91 @@ app.use("/maps", async (req, res) => {
     res.status(500).send(err.message)
   }
 })
+app.use("/openai/models/:model", async (req, res) => {
+  try {
+    const response = await openai.retrieveModel(req.params.model);
+    console.log(response.data)
+    res.send(response.data)
+  } catch (err) {
+    res.status(500).send(err.message)
+  }
+})
+
+app.use("/openai/models", async (req, res) => {
+  try {
+    const response = await openai.listModels();
+    const models = response.data.data.map(d =>  d.id)
+    console.log(models)
+    res.send(models)
+  } catch (err) {
+    res.status(500).send(err.message)
+  }
+})
+
+app.use("/openai/completion/:text", async (req, res) => {
+  try {
+    console.log(req.params.text)
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: req.params.text,
+      max_tokens: 1000,
+      temperature: 0,
+    })
+    console.log(response.data)
+    res.send(response.data.choices[0].text)
+  } catch (err) {
+    console.log(err.response.data)
+    res.status(500).send(err.response.data)
+  }
+})
+
+app.use("/openai/completion/test", async (req, res) => {
+  try {
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: "Say this is a test",
+      max_tokens: 7,
+      temperature: 0,
+    })
+    console.log(response.data)
+    res.send(response.data.choices[0].text)
+  } catch (err) {
+    console.log(err.response.data)
+    res.status(500).send(err.response.data)
+  }
+})
+
+
+app.use("/openai/chat/", async (req, res) => {
+  try {
+    console.log(req.query.message)
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [{role: "user", content: req.query.message as string}],
+    });
+    console.log(response.data.choices[0].message.content)
+    res.send(response.data.choices[0].message.content)
+  } catch (err) {
+    console.log(err.response.data)
+    res.status(500).send(err.response.data)
+  }
+})
+
+app.use("/openai/chat/test", async (req, res) => {
+  try {
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [{role: "user", content: "Hello world"}],
+    });
+    console.log(response.data.choices[0].message.content)
+    res.send(response.data.choices[0].message.content)
+  } catch (err) {
+    console.log(err.response.data)
+    res.status(500).send(err.response.data)
+  }
+})
+
+
 
 app.use(
   '/graphql',
@@ -217,7 +311,7 @@ app.use(
   expressMiddleware(server, {
     context: async ({ req }) => {
       const loaders = { contactsLoader, messagesLoader, lastMessageLoader }
-      return { token: req.headers.authorization, db, loaders }
+      return { token: req.headers.authorization, db, loaders, openai }
     },
   }),
 );

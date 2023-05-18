@@ -70,6 +70,20 @@ export const QueryResolver = {
 				token 
 			}
 			return user
+	}, 
+	openaiChat: async (_, {message}, {openai}) => {
+		try {
+			console.log(message)
+			const response = await openai.createChatCompletion({
+				model: "gpt-3.5-turbo",
+				messages: [{role: "user", content: message}],
+			});
+			console.log(response.data.choices[0].message.content)
+			return response.data.choices[0].message.content
+		} catch (err) {
+			console.log(err.response.data)
+			throw new GraphQLError(err.response.data.error.message)
+		}
 	}
 }
 

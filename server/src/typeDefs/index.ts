@@ -7,6 +7,7 @@ export default `#graphql
     messages(from: String! to: String!): [Message!]
     login(username: String! password: String!) : User
     posts(username: String! index: Int! limit: Int!): [Post!]
+    openaiChat(message: String!) : String!
   }
 
   type Mutation {
