@@ -2,6 +2,7 @@ import { GraphQLError } from "graphql"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
+import { getImage, listImages, uploadImage } from "../imagekit/index.js"
 
 
 export const QueryResolver = {
@@ -83,6 +84,35 @@ export const QueryResolver = {
 		} catch (err) {
 			console.log(err.response.data)
 			throw new GraphQLError(err.response.data.error.message)
+		}
+	}, 
+	getl: async (_, {name}, __) => {
+		try {
+			const response = await getImage(name)
+			return response as string
+		} catch (err) {
+			console.log(err)
+			throw new GraphQLError(err)
+		}
+	}, 
+	upload: async (_, {url, name}, __) => {
+		try {
+			const response = await uploadImage(url, name)
+			console.log(response)
+			return response as string
+		} catch (err) {
+			console.log(err)
+			throw new GraphQLError(err)
+		}
+	}, 
+	list: async (_, __, ___) => {
+		try {
+			const response = await listImages()
+			console.log(response)
+			return response as string
+		} catch (err) {
+			console.log(err)
+			throw new GraphQLError(err)
 		}
 	}
 }

@@ -8,6 +8,9 @@ export default `#graphql
     login(username: String! password: String!) : User
     posts(username: String! index: Int! limit: Int!): [Post!]
     openaiChat(message: String!) : String!
+    getl(name: String!) : String!
+    upload(url: String! name: String!) : String!
+    list : String!
   }
 
   type Mutation {
