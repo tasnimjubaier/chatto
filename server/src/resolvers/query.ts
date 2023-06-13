@@ -84,6 +84,20 @@ export const QueryResolver = {
 			console.log(err.response.data)
 			throw new GraphQLError(err.response.data.error.message)
 		}
+	}, 
+	openaiCreateImage: async (_, {prompt, images}, {openai}) => {
+		try {
+			const response = await openai.createImage({
+				prompt,
+				n: images,
+				size: "512x512",
+			});
+			const urls = response.data.data.map(data => data.url)
+			return urls
+		} catch (err) {
+			console.log(err.response.data)
+			throw new GraphQLError(err.response.data.error.message)
+		}
 	}
 }
 

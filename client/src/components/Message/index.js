@@ -108,6 +108,7 @@ const Message = ({user, selectedUser}) => {
 		}})
 
 		
+		setContent("")
 	}
 
 	const handleOnKeyDown = (e) => {
