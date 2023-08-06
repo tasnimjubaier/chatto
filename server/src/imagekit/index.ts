@@ -37,14 +37,14 @@ export const uploadImage = (imagefile, fileName) => {
         },
       ],
     })
-      .then((response) => {
-        console.log(response);
-        resolve(JSON.stringify(response));
-      })
-      .catch((error) => {
-        console.log(error);
-        reject(JSON.stringify(error));
-      });
+    .then((response) => {
+      console.log(response);
+      resolve(JSON.stringify(response));
+    })
+    .catch((error) => {
+      console.log(error);
+      reject(JSON.stringify(error));
+    });
   });
 }
 
