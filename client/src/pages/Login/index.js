@@ -5,6 +5,7 @@ import { login as saveUser } from '../../features/user/userSlice';
 
 import './index.css'
 import { LOG_IN } from '../../utils/queries';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [name, setName] = useState("")
@@ -20,6 +21,8 @@ const Login = () => {
   }) 
   const dispatch = useDispatch()
 
+  const navigate = useNavigate()
+
   useEffect(() => {
   }, [called, networkStatus])
 
@@ -28,12 +31,14 @@ const Login = () => {
       setMessage(error.message)
     }
     else if(data) {
-      if(data.login)
+      if(data.login){
         dispatch(saveUser({
           username: data.login.username, 
           imageUrl: data.login.imageUrl,
           token : data.login.token
         }))
+        navigate("/")
+      }
       else
         setMessage('user not found')
     }
@@ -62,6 +67,10 @@ const Login = () => {
     }})
   }
 
+  const handleSignup = () => {
+    navigate("/signup")
+  }
+
   return (
     <div className='login-wrapper'>
       <div className='left-panel'>
@@ -84,7 +93,11 @@ const Login = () => {
 
         <button className='login-button' disabled={loading} onClick={handleLogin}>Login</button>
         <small style={{color: 'red'}}>{message}</small>
-        <p>Don't have an account? Signup </p>
+        <p>Don't have an account?  
+          <span onClick={handleSignup}>
+            signup
+          </span>
+        </p>
       </div>
       <div className='right-panel'>
           {loading && "loading"}

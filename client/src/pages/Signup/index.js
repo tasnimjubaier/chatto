@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import './index.css'
 import { GET_USER, SIGN_UP } from '../../utils/queries'
 import { login } from '../../features/user/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Signup = ({signup}) => {
   const [name, setName] = useState("")
@@ -19,6 +20,7 @@ const Signup = ({signup}) => {
   const [registerUser, { loading: registerUserLoading, error: registerUserError, data: registerUserData }] = useMutation(SIGN_UP)
    
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   
   useEffect(() => {
     if (error) {
@@ -115,7 +117,7 @@ const Signup = ({signup}) => {
           Signup
         </button>
         <small style={{color: 'red', visibility: `${registerUserError ? "visible": "hidden"}`}} > couldn't sign up</small>
-        <p>Already have an account? Signin </p>
+        <p>Already have an account? <span onClick={() => navigate("/login")}>Signin</span> </p>
       </div>
       <div className='right-panel'>
       </div>

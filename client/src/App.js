@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from 'axios'
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -27,14 +31,27 @@ function callPlacesapi() {
     })
 }
 
-
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  }  
+]);
 
 function App() {
   const user = useSelector(state => state.user.user)
   
   return (
     <div className="App">
-      {user ? 
+      {/* {user ? 
         <Root user={user}/> : 
         // <Signup />
         // <Box />
@@ -43,7 +60,8 @@ function App() {
         // <Call />
         // <Feed />
         // <Counter />
-      }
+      } */}
+      <RouterProvider router={router} />
     </div>
   );
 }
