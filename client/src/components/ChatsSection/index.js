@@ -3,25 +3,25 @@ import React, { useState } from 'react'
 import NavigationPanel from '../NavigationPanel'
 import Users from '../Users'
 import Message from '../Message'
-import  './index.css'
+import  styles from './index.module.css'
+import { useSelector } from 'react-redux'
 
 
-const Box = ({user}) => {
+const ChatsSection = () => {
 	const [selectedUser, setSelectedUser] = useState(null)
-
+	const user = useSelector(state => state.user.user)
 	const handleSelectUser = (user) => {
 		setSelectedUser(user)
 	}
 	
 	return (
-		<div className='box-wrapper'>
-			{/* <NavigationPanel user={user}/> */}
-			<div className='left-panel'>
+		<div className={styles["box-wrapper"]}>
+			<div className={styles["left-panel"]}>
 				<Users user={user} onSelectUser={handleSelectUser}/>
 			</div>
 			<Message user={user} selectedUser={selectedUser}/>
-    </div>
+    	</div>
 	)
 }
 
-export default Box
+export default ChatsSection

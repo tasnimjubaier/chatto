@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 
 import styles from './index.module.css'
-import NavigationPanel from '../NavigationPanel'
-import Content from '../Content'
 import { useSelector } from 'react-redux'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, Outlet, useNavigate } from 'react-router-dom'
+import NavigationPanel from '../../components/NavigationPanel'
 
 
 
@@ -12,17 +11,22 @@ const Root = () => {
   const [selectedOption, setSelectedOption] = useState('home')
 	const user = useSelector(state => state.user?.user)
 
-  console.log({user})
-  
+  const navigate = useNavigate()
+
   if(user == null) {
     
     return <Navigate to="/login" replace={false} />
   }
+
+  const handleSelect = (option) => {
+    // console.log({e})
+    navigate("/" + option)  
+  }
   
   return (
-    <div className='box-wrapper'>
-			<NavigationPanel onSelectOption={option => setSelectedOption(option)}/>
-			<Content selectedOption={selectedOption}/>
+    <div className={styles["box-wrapper"]}>
+	    <NavigationPanel onSelectOption={handleSelect}/>
+		<Outlet />
     </div>
   )
 }

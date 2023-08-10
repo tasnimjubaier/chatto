@@ -8,12 +8,11 @@ import {
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Chat from "./pages/Chat";
-import Box from "./components/Box";
+import ChatsSection from "./components/ChatsSection";
 import './App.css'
-import Call from "./components/Call/Call";
 import Feed from "./components/Feed";
-import Root from "./components/Root";
+import Home from './pages/Home'
+import { SelectOptions } from "./utils/constants";
 
 function callPlacesapi() {
   var config = {
@@ -34,7 +33,33 @@ function callPlacesapi() {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <Home />,
+    children: [
+      {
+        path: SelectOptions.HOME,
+        element: <Feed />
+      },
+      {
+        path: SelectOptions.CHATS,
+        element: <ChatsSection />
+      },
+      {
+        path: SelectOptions.REELS,
+        element: <Feed />
+      },
+      {
+        path: SelectOptions.GROUPS,
+        element: <Feed />
+      },
+      {
+        path: SelectOptions.EVENTS,
+        element: <Feed />
+      },
+      {
+        path: SelectOptions.USERS,
+        element: <Feed />
+      }
+    ]
   },
   {
     path: "/login",
