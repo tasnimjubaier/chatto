@@ -10,7 +10,7 @@ const Feed = () => {
   return (
     <div className={styles['wrapper']}>
       <CreatePost />
-      <Posts />
+      {/* <Posts /> */}
     </div>
   )
 }
