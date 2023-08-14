@@ -26,7 +26,7 @@ const Root = () => {
   return (
     <div className={styles["box-wrapper"]}>
 	    <NavigationPanel onSelectOption={handleSelect}/>
-		<Outlet />
+		  <Outlet />
     </div>
   )
 }

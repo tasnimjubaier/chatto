@@ -3,9 +3,10 @@ import { useQuery } from '@apollo/client'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { saveUsers } from '../../features/users/usersSlice'
-import './index.css'
 import { GET_USERS } from '../../utils/queries'
 import User from './User'
+
+import styles from './index.module.css'
 
 
 const Users = ({user, onSelectUser}) => {
@@ -25,11 +26,11 @@ const Users = ({user, onSelectUser}) => {
 	}
 
 	return (
-		<div className='users-wrapper'>
-			<div className='topbar'>
+		<div className={styles["users-wrapper"]}>
+			<div className={styles["topbar"]}>
 					Contacts
 			</div>
-			<div className='users'>
+			<div className={styles["users"]}>
 				{loading && (<div>loading</div>)}
 				{error && <div>error loading users</div>}
 				{users && users.map((user, key) => (
