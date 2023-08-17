@@ -16,6 +16,7 @@ import { SelectOptions } from "./utils/constants";
 import EventsSection from "./components/EventsSection";
 import { useLazyQuery } from "@apollo/client";
 import { GET_PLACES_QUERY } from "./utils/queries";
+import PlacesSection from "./components/PlacesSection";
 
 
 
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
       },
       {
         path: SelectOptions.GROUPS,
-        element: <Feed />
+        element: <PlacesSection />
       },
       {
         path: SelectOptions.EVENTS,

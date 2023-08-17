@@ -4,7 +4,7 @@ import styles from './index.module.css'
 
 const EventsSection = () => {
   return (
-    <div className={styles['wrapper']}>
+    <div assNamcle={styles['wrapper']}>
         
     </div>
   )
