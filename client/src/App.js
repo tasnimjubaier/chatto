@@ -13,22 +13,11 @@ import './App.css'
 import Feed from "./components/Feed";
 import Home from './pages/Home'
 import { SelectOptions } from "./utils/constants";
+import EventsSection from "./components/EventsSection";
+import { useLazyQuery } from "@apollo/client";
+import { GET_PLACES_QUERY } from "./utils/queries";
 
-function callPlacesapi() {
-  var config = {
-    method: 'get',
-    url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=23.77260092510139%2C90.42584835709935&radius=500&type=restaurant&key=AIzaSyDel5Ph4-tw-UufNeeWkdDgNySX2GNaDrM',
-    headers: { }
-  };
-  axios(config)
-    .then((res) => {
-      console.log(res)
-    })
-    .catch(err => {
-      console.log(err)
-      // return "error fetching data"
-    })
-}
+
 
 const router = createBrowserRouter([
   {
@@ -53,7 +42,7 @@ const router = createBrowserRouter([
       },
       {
         path: SelectOptions.EVENTS,
-        element: <Feed />
+        element: <EventsSection />
       },
       {
         path: SelectOptions.USERS,
@@ -71,21 +60,31 @@ const router = createBrowserRouter([
   }  
 ]);
 
+
+
 function App() {
-  const user = useSelector(state => state.user.user)
-  
+  // const [getNearbyPlaces, {data, error}] = useLazyQuery(GET_PLACES_QUERY)
+  // https://developers.google.com/maps/documentation/places/web-service/search-nearby
+  // useEffect(()=> {
+  //   getNearbyPlaces({ variables : {
+  //     location: `23.8670522%2C90.1957362`,
+  //     radius: "1500",
+  //     keyword: "restaurant",
+  //     type: "restaurant"
+  //   }})
+  //   console.log('feching places')
+  // }, [])
+
+  // useEffect(() => {
+  //   if(error) console.log(error)
+  //   if(data) {
+  //     const obj = JSON.parse(data.getNearbyPlaces)
+  //     console.log(obj)
+  //   }
+  // }, [data, error])
+
   return (
     <div className="App">
-      {/* {user ? 
-        <Root user={user}/> : 
-        // <Signup />
-        // <Box />
-        <Login />
-        // <div> <button onClick={callPlacesapi}>call api</button></div>
-        // <Call />
-        // <Feed />
-        // <Counter />
-      } */}
       <RouterProvider router={router} />
     </div>
   );
