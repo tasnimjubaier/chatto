@@ -16,11 +16,10 @@ import { Configuration, OpenAIApi } from "openai"
 
 import typeDefs from './typeDefs/index.js';
 import resolvers from './resolvers/index.js';
-import axios from 'axios';
-// import { contactsLoader, lastMessageLoader, messagesLoader } from './middleware/context.js';
 
 
 dotenv.config();
+
 
 
 const configuration = new Configuration({
@@ -73,8 +72,8 @@ const server = new ApolloServer({
   ],
 });
 
-
 await server.start();
+
 
 async function connectToDatabase() {
   try {
@@ -206,18 +205,6 @@ app.use("/holdit", (req, res) => {
   res.end("hold it.")
 })
 
-
-
-app.use("/maps", async (req, res) => {
-  try {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    const url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=23.77260092510139%2C90.42584835709935&radius=500&type=restaurant&key=AIzaSyB4uuEF--sY1zEclPw845Fi8cNBTBHspNE"
-    const response = await axios.get(url)
-    res.send(response.data)
-  } catch (err) {
-    res.status(500).send(err.message)
-  }
-})
 app.use("/openai/models/:model", async (req, res) => {
   try {
     const response = await openai.retrieveModel(req.params.model);
@@ -272,7 +259,6 @@ app.use("/openai/completion/test", async (req, res) => {
   }
 })
 
-
 app.use("/openai/chat/", async (req, res) => {
   try {
     console.log(req.query.message)
@@ -303,7 +289,6 @@ app.use("/openai/chat/test", async (req, res) => {
 })
 
 
-
 app.use(
   '/graphql',
   cors<cors.CorsRequest>(),
@@ -311,10 +296,11 @@ app.use(
   expressMiddleware(server, {
     context: async ({ req }) => {
       const loaders = { contactsLoader, messagesLoader, lastMessageLoader }
-      return { token: req.headers.authorization, db, loaders, openai }
+      return { token: req.headers.authorization, db, loaders, openai, placesApiKey: process.env.GOOGLE_API_KEY }
     },
   }),
 );
+
 
 const PORT = 4000;
 httpServer.listen(PORT, () => {

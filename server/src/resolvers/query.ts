@@ -2,6 +2,7 @@ import { GraphQLError } from "graphql"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
+import axios from "axios"
 
 
 export const QueryResolver = {
@@ -97,6 +98,18 @@ export const QueryResolver = {
 		} catch (err) {
 			console.log(err.response.data)
 			throw new GraphQLError(err.response.data.error.message)
+		}
+	},
+	getNearbyPlaces: async (_, {location, radius, keyword, maxPrice, minPrice, opennow, pagetoken, rankBy, type}, {placesApiKey}) => {
+		let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=${keyword}&location=${location}&radius=${radius}&type=${type}&key=${placesApiKey}`
+		
+		try {
+			let result = await axios.get(url)
+			console.log(result.data)
+			return JSON.stringify(result.data)
+		} catch(err) {
+			console.log(err)
+			throw new GraphQLError(err) 
 		}
 	}
 }
