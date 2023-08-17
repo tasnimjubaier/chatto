@@ -10,9 +10,12 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ChatsSection from "./components/ChatsSection";
 import './App.css'
-import Feed from "./components/Feed";
+import FeedSection from "./components/Feed";
 import Home from './pages/Home'
 import { SelectOptions } from "./utils/constants";
+import UsersSection from "./components/UsersSection";
+import ReelsSection from "./components/ReelsSection";
+import EventsSection from "./components/EventsSection";
 
 function callPlacesapi() {
   var config = {
@@ -37,7 +40,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: SelectOptions.HOME,
-        element: <Feed />
+        element: <FeedSection />
       },
       {
         path: SelectOptions.CHATS,
@@ -45,19 +48,20 @@ const router = createBrowserRouter([
       },
       {
         path: SelectOptions.REELS,
-        element: <Feed />
+        element: <ReelsSection />
       },
       {
         path: SelectOptions.GROUPS,
-        element: <Feed />
+        element: <FeedSection />
       },
       {
         path: SelectOptions.EVENTS,
-        element: <Feed />
+        element: <EventsSection />
       },
       {
         path: SelectOptions.USERS,
-        element: <Feed />
+        element: <UsersSection />
+
       }
     ]
   },

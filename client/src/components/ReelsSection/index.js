@@ -1,13 +1,12 @@
 import React from 'react'
+
 import styles from './index.module.css'
 
 
-const Users = () => {
+const ReelsSection = () => {
   return (
-    <div >
-
-    </div>
+    <div>ReelsSection</div>
   )
 }
 
-export default Users
+export default ReelsSection

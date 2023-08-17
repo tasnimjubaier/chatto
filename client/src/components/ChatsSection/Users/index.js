@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { saveUsers } from '../../features/users/usersSlice'
-import { GET_USERS } from '../../utils/queries'
+import { saveUsers } from '../../../features/users/usersSlice'
+import { GET_USERS } from '../../../utils/queries'
 import User from './User'
 
 import styles from './index.module.css'

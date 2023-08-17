@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLazyQuery } from '@apollo/client'
 
-import { GET_MESSAGES, SEND_MESSAGE_SUBSCRIPTION } from '../../../utils/queries'
-import { clearNewMessageHistory, loadChats } from '../../../features/chatHistory/chatHistorySlice'
+import { GET_MESSAGES, SEND_MESSAGE_SUBSCRIPTION } from '../../../../utils/queries'
+import { clearNewMessageHistory, loadChats } from '../../../../features/chatHistory/chatHistorySlice'
 import styles from './index.module.css'
 
 const Chats = ({selectedUser}) => {

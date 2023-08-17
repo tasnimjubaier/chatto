@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { gql, useApolloClient, useLazyQuery, useMutation } from '@apollo/client'
 
-import { OPENAI_CHAT, SEND_MESSAGE } from '../../utils/queries'
+import { OPENAI_CHAT, SEND_MESSAGE } from '../../../utils/queries'
 import Topbar from './Topbar'
 import Chats from './Chats'
 import styles from './index.module.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { addMessage, addNewMessage } from '../../features/chatHistory/chatHistorySlice'
+import { addMessage, addNewMessage } from '../../../features/chatHistory/chatHistorySlice'
 
 
 const Message = ({user, selectedUser}) => {

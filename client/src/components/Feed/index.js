@@ -6,13 +6,13 @@ import Posts from './Posts'
 
 
 
-const Feed = () => {
+const FeedSection = () => {
   return (
     <div className={styles['wrapper']}>
       <CreatePost />
-      {/* <Posts /> */}
+      <Posts />
     </div>
   )
 }
 
-export default Feed
+export default FeedSection
