@@ -136,3 +136,9 @@ export const SEND_MESSAGE_SUBSCRIPTION = gql`
 		}
 	}
 `
+
+export const GET_PLACES_QUERY = gql`
+	query Query($location: String!, $radius: String!, $keyword: String, $type: String!) {
+		getNearbyPlaces(location: $location, radius: $radius, keyword: $keyword, type: $type)
+	}
+`

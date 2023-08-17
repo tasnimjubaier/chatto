@@ -9,6 +9,7 @@ export default `#graphql
     posts(username: String! index: Int! limit: Int!): [Post!]
     openaiChat(message: String!) : String!
     openaiCreateImage(prompt: String! images: Int!) : [String!]
+    getNearbyPlaces(location: String! radius: String! keyword: String maxPrice: Int minPrice: Int opennow: Int pagetoken: String rankBy: String type: String!) : String!
   }
 
   type Mutation {
