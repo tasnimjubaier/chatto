@@ -142,3 +142,9 @@ export const GET_PLACES_QUERY = gql`
 		getNearbyPlaces(location: $location, radius: $radius, keyword: $keyword, type: $type)
 	}
 `
+
+export const GET_PLACE_DETAILS_QUERY = gql`
+	query Query($placeIds: [String!]!, $fields: [String!]!) {
+		getPlaceDetail(placeIds: $placeIds, fields: $fields)
+	}
+`

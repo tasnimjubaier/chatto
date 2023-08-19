@@ -16,6 +16,7 @@ import { Configuration, OpenAIApi } from "openai"
 
 import typeDefs from './typeDefs/index.js';
 import resolvers from './resolvers/index.js';
+import axios from 'axios';
 
 
 dotenv.config();
@@ -300,6 +301,21 @@ app.use(
     },
   }),
 );
+
+app.use('/places', async (req, res) => {
+  let url = `https://maps.googleapis.com/maps/api/place/details/json?fields=name%2Crating%2Cformatted_phone_number&place_id=ChIJN1t_tDeuEmsRUsoyG83frY4&key=${process.env.GOOGLE_API_KEY}`
+		
+		try {
+      console.log(url)
+			let result = await axios.get(url)
+			console.log(result.data)
+			res.send(result.data)
+		} catch(err) {
+			console.log(err)
+      console.log("error")
+			res.send("")
+		}
+})
 
 
 const PORT = 4000;

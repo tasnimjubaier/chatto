@@ -102,15 +102,40 @@ export const QueryResolver = {
 	},
 	getNearbyPlaces: async (_, {location, radius, keyword, maxPrice, minPrice, opennow, pagetoken, rankBy, type}, {placesApiKey}) => {
 		let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=${keyword}&location=${location}&radius=${radius}&type=${type}&key=${placesApiKey}`
-		
+		// let url = `https://maps.googleapis.com/maps/api/place/details/json?fields=name%2Crating%2Cphotos&place_id=ChIJN1t_tDeuEmsRUsoyG83frY4&key=${placesApiKey}`
 		try {
 			let result = await axios.get(url)
-			console.log(result.data)
+			// console.log(result.data)
 			return JSON.stringify(result.data)
 		} catch(err) {
 			console.log(err)
 			throw new GraphQLError(err) 
 		}
+	},
+	getPlaceDetail: async (_, {placeIds, fields}, {placesApiKey}) => {
+		let fieldsString = ""
+		fields.forEach(e => {
+			if(fieldsString !== "") fieldsString += "%2C"
+			fieldsString += e
+		})
+
+		console.log({fieldsString})
+		let result = []
+
+		await Promise.all(placeIds.map(async placeId => {
+			let url = `https://maps.googleapis.com/maps/api/place/details/json?fields=${fieldsString}&place_id=${placeId}&key=${placesApiKey}`
+			try {
+				let res = await axios.get(url)
+				console.log(res.data.result)
+				result.push(res.data.result)
+			} catch(err) {
+				console.log(err)
+				throw new GraphQLError(err) 
+			}
+		}))
+		console.log({result})
+		
+		return JSON.stringify(result)
 	}
 }
 
