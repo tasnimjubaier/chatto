@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 
-import NavigationPanel from '../NavigationPanel'
 import Users from './Users'
 import Message from './Message'
 import  styles from './index.module.css'
