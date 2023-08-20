@@ -15,7 +15,7 @@
 .user-wrapper {
     width: 550px;
     min-height: 100px;
-    background-color: rgb(204, 204, 227);
+    background-color: rgb(223, 223, 230);
 
     display: block;
     margin: 29px 0;
@@ -30,12 +30,13 @@
     min-height: 50px;
 
     border-radius: 50%;
-    background-color: rgb(243, 174, 174);
+    background-color: rgb(201, 184, 184);
 
     margin: 0 20px 0 20px;
 }
 
 .name {
+    width: 50%;
     font-size: 1.2em;
     font-weight: 400;
 

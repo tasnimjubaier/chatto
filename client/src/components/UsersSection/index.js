@@ -1,15 +1,32 @@
 import React, { useEffect, useState } from 'react'
 
 import styles from './index.module.css'
+import { useLazyQuery } from '@apollo/client'
+import { GET_USERS } from '../../utils/queries'
 
 
 const UsersSection = () => {
   const [users, setUsers] = useState([]) 
+  const [getUsers, {data, error}] = useLazyQuery(GET_USERS)
+
+
   useEffect(() => {
     const usrs = Array.from({length : 19})
+
+    getUsers()
+
     setUsers(usrs)
     console.log(usrs)
   }, [])
+
+
+  useEffect(() => {
+    if(error) console.log(error)
+    if(data) {
+      setUsers(data.users)
+      console.log(data)
+    }
+  }, [data, error])
 
   return (
     <div className={styles["wrapper"]}>
@@ -19,10 +36,10 @@ const UsersSection = () => {
             
           </div>
           <div className={styles["name"]}>
-            {`user ${index}`}
+            {`${user?.username}`}
           </div>
           <div className={styles["message"]}>
-            send message
+            message
           </div>
         </div>
       )}
