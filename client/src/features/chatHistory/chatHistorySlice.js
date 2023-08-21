@@ -14,12 +14,10 @@ const slice = createSlice({
 			console.log({payload : action.payload})
 			state.messages[action.payload.user] = action.payload.messages
 		},
-    addMessage: (state, action) => { // action : { user: "alex", message: "hello"}
-      if (!state.messages[action.payload.user]) state.messages[action.payload.user] = []
-
-			// state.messages = { ...state.messages, [state.messages[action.payload.user]]: [ ...state.messages[action.payload.user], action.payload.message ] }
+		addMessage: (state, action) => { // action : { user: "alex", message: "hello"}
+			if (!state.messages[action.payload.user]) state.messages[action.payload.user] = []
 			state.messages[action.payload.user].push(action.payload.message)
-    },
+		},
 		addNewMessage: (state, action) => { // action : { user: "alex", message: "hello"}
 			if (!state.newMessages[action.payload.user]) state.newMessages[action.payload.user] = []
 			state.newMessages[action.payload.user].push(action.payload.message)

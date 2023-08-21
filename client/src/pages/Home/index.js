@@ -8,13 +8,11 @@ import NavigationPanel from '../../components/NavigationPanel'
 
 
 const Root = () => {
-  const [selectedOption, setSelectedOption] = useState('home')
 	const user = useSelector(state => state.user?.user)
 
   const navigate = useNavigate()
 
   useEffect(()=>{
-    //localStorage.setItem("place", "dhaka")
   }, [])
 
   if(user == null) {
@@ -25,7 +23,6 @@ const Root = () => {
   
 
   const handleSelect = (option) => {
-    // console.log({e})
     navigate("/" + option)  
   }
   

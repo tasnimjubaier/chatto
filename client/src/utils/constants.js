@@ -6,6 +6,6 @@ export const SelectOptions = {
     REELS: 'reels',
     USERS: "users",
     CHATS: "chats",
-    GROUPS: 'groups',
+    EXPLORE: 'explore',
     EVENTS: "events"
 }

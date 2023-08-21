@@ -11,7 +11,7 @@ const Options = ({onSelectOption}) => {
 				<li className={styles['item']} onClick={() => onSelectOption(SelectOptions.REELS)}>Reels</li>
 				<li className={styles['item']} onClick={() => onSelectOption(SelectOptions.USERS)}>Users</li> 
 				<li className={styles['item']} onClick={() => onSelectOption(SelectOptions.CHATS)}>Chats</li>
-				<li className={styles['item']} onClick={() => onSelectOption(SelectOptions.GROUPS)}>Groups</li>
+				<li className={styles['item']} onClick={() => onSelectOption(SelectOptions.EXPLORE)}>Explore</li>
 				<li className={styles['item']} onClick={() => onSelectOption(SelectOptions.EVENTS)}>Events</li>
 			</ul>
 		</div>
