@@ -9,7 +9,7 @@ export const GET_USER = gql`
 	}
 `
 export const SIGN_UP  = gql`
-	mutation signUp($username: String!, $password: String!, $confirmPassword: String!) {
+	mutation signup($username: String!, $password: String!, $confirmPassword: String!) {
 		registerUser(username: $username, password: $password, confirmPassword: $confirmPassword) {
 			username token imageUrl
 		}
@@ -46,7 +46,7 @@ export const SEND_MESSAGE = gql`
 `
 
 export const GET_POSTS = gql`
-	query Query($username: String!, $index: Int!, $limit: Int!) {
+	query getPosts($username: String!, $index: Int!, $limit: Int!) {
 		posts(username: $username, index: $index, limit: $limit) {
 			_id
 			postedBy
@@ -76,13 +76,13 @@ export const GET_POSTS = gql`
 `
 
 export const OPENAI_CHAT = gql`
-	query Query($message: String!) {
+	query openaiChat($message: String!) {
 		openaiChat(message: $message)
 	}
 `
 
 export const CREATE_POST = gql`
-	mutation Mutation($postedBy: String!, $title: String!, $description: String!) {
+	mutation createPost($postedBy: String!, $title: String!, $description: String!) {
 		createPost(postedBy: $postedBy, title: $title, description: $description) {
 			_id
 			postedBy
@@ -94,7 +94,7 @@ export const CREATE_POST = gql`
 `
 
 export const CREATE_COMMENT_OR_REPLY = gql`
-	mutation Mutation($postedBy: String!, $content: String!, $parentId: String!) {
+	mutation createCommentOrReply($postedBy: String!, $content: String!, $parentId: String!) {
 		createCommentOrReply(postedBy: $postedBy, content: $content, parentId: $parentId) {
 			_id
 			postedBy
@@ -106,7 +106,7 @@ export const CREATE_COMMENT_OR_REPLY = gql`
 `
 
 export const ADD_REACTION = gql`
-	mutation Mutation($createdBy: String!, $content: String!, $parentId: String!) {
+	mutation addReaction($createdBy: String!, $content: String!, $parentId: String!) {
 		addReaction(createdBy: $createdBy, content: $content, parentId: $parentId) {
 			_id
 			createdBy
@@ -118,7 +118,7 @@ export const ADD_REACTION = gql`
 `
 
 export const REMOVE_REACTION = gql`
-	mutation Mutation($createdBy: String!, $parentId: String!) {
+	mutation removeReaction($createdBy: String!, $parentId: String!) {
 		removeReaction(createdBy: $createdBy, parentId: $parentId) {
 			_id
 			createdBy
@@ -138,13 +138,13 @@ export const SEND_MESSAGE_SUBSCRIPTION = gql`
 `
 
 export const GET_PLACES_QUERY = gql`
-	query Query($location: String!, $radius: String!, $keyword: String, $type: String!) {
+	query getPlacesQuery($location: String!, $radius: String!, $keyword: String, $type: String!) {
 		getNearbyPlaces(location: $location, radius: $radius, keyword: $keyword, type: $type)
 	}
 `
 
 export const GET_PLACE_DETAILS_QUERY = gql`
-	query Query($placeIds: [String!]!, $fields: [String!]!) {
+	query getPlaceDetailsQuery($placeIds: [String!]!, $fields: [String!]!) {
 		getPlaceDetail(placeIds: $placeIds, fields: $fields)
 	}
 `
