@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import styles from './index.module.css'
 import { useSelector } from 'react-redux'
@@ -13,10 +13,16 @@ const Root = () => {
 
   const navigate = useNavigate()
 
+  useEffect(()=>{
+    //localStorage.setItem("place", "dhaka")
+  }, [])
+
   if(user == null) {
     
     return <Navigate to="/login" replace={false} />
   }
+
+  
 
   const handleSelect = (option) => {
     // console.log({e})
