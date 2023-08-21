@@ -1,0 +1,49 @@
+@startuml Auth Flow
+
+	title       Authentication Flow
+
+	client -> server: login(username, password)
+    server -> client: (user, token)
+    client -> localStorage: saves token
+
+    group subsequent server requests
+        client -> server: requests info with token 
+        server -> server: checks token
+        server -> cliend: returns data if token is valid, otherwise logs user out/returns nothing
+        client -> client: loads info or removes token from storage prompting user to login page
+    end
+
+@enduml
+	' note right
+		
+	' end note
+	' group JanusSessionCreatedEvent
+	' 	CommNet -> Janus: KeepAlive
+	' 	CommNet -> AudioBridgeService: Init
+	' 	CommNet -> AudioBridgeService: InitAudioInitegration
+	' 	alt IsVideoCall
+	' 		CommNet -> VideoRoomService: Init
+	' 		CommNet -> VideoRoomService: InitVideoInitegration
+	' 	end
+	' end
+	' CommNet -> CommNet: PluginReadyEventFired
+	' group PluginReadyEventFired
+	' 	alt Is JanusAudioBridgePlugin
+	' 		CommNet -> AudioBridgeService: PluginReady
+	' 		CommNet -> AudioBridgeService: JoinToAudioRoom
+	' 		alt Is CallDirection Outgoing
+	' 			CommNet -> AudioBridgeService: SendOffer
+	' 		end 
+	' 	end
+	' 	alt Is JanusVideoRoomPlugin
+	' 		CommNet -> VideoRoomService: PluginReady
+	' 		alt IsPublisher
+	' 			CommNet -> VideoRoomService: JoinToVideoRoom
+	' 			alt Is CallDirection Outgoing
+	' 				CommNet -> VideoRoomService: SendOffer
+	' 			end 
+	' 		else 
+	' 			CommNet -> VideoRoomService: JoinAsSubscriber
+	' 		end 
+	' 	end 
+	' end
