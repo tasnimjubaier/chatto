@@ -264,7 +264,7 @@ app.use(
   bodyParser.json(),
   expressMiddleware(server, {
     context: async ({ req }) => {
-      const loaders = { contactsLoader, messagesLoader, lastMessageLoader, postsLoader, reactionsLoader }
+      const loaders = { contactsLoader, messagesLoader, lastMessageLoader, postsLoader, reactionsLoader, commentsLoader }
       // let tk = req.headers.authorization.split(" ")
       // let token = tk[1]
       // console.log(token)

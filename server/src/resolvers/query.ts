@@ -251,18 +251,21 @@ export const CommentResolver = {
 	reactions: async ({_id}, _, {db, loaders}) => {
 		const id = _id.toString()
 
-		const result = loaders.reactionsLoader.load(id)
+		const result = loaders.commentsLoader.load(id)
 
 		// #region without using dataloader /// 762ms
 		// const Reaction = db.collection("reactions")
 		// const result = await Reaction.find({parentId : id}).toArray() as any 
 		return result
 	},
-	replies: async ({_id}, _, {db}) => {
+	replies: async ({_id}, _, {db, loaders}) => {
 		const id = _id.toString()
+
+		const result = loaders.commentsLoader.load(id)
+
 		// #region without using dataloader /// 762ms
-		const Comment = db.collection("comments")
-		const result = await Comment.find({parentId : id}).toArray() as any 
+		// const Comment = db.collection("comments")
+		// const result = await Comment.find({parentId : id}).toArray() as any 
 		return result
 	}
 }
