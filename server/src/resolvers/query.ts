@@ -145,11 +145,6 @@ export const QueryResolver = {
 
 
 export const UserResolver = {
-	token: (parent, payload, context) => {
-		const token =  jwt.sign({username: parent.username}, process.env.JWT_SECRET)
-
-		return token 
-	},
 	contacts: async (parent, __, { db, loaders }) => {
 		const user = parent.username
 

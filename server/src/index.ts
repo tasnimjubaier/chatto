@@ -18,6 +18,7 @@ import jwt from 'jsonwebtoken'
 import typeDefs from './typeDefs/index.js';
 import resolvers from './resolvers/index.js';
 import axios from 'axios';
+import { GraphQLError } from 'graphql';
 
 
 dotenv.config();
@@ -265,21 +266,28 @@ app.use(
   expressMiddleware(server, {
     context: async ({ req }) => {
       const loaders = { contactsLoader, messagesLoader, lastMessageLoader, postsLoader, reactionsLoader, commentsLoader }
-      // let tk = req.headers.authorization.split(" ")
-      // let token = tk[1]
-      // console.log(token)
+      let tk = req.headers.authorization
+      let tkn = tk.split(' ')
+      let token = tkn[1]
+      console.log(token)
       // others: req.method, req.baseUrl req.params, req.query 
       const operationName = req.body.operationName
       const variables = req.body.variables
-      //TODO: do something with the token
 
-      // if(operationName !== "login" && operationName !== 'signup') {
-
-      //   console.log(operationName)
-      //   console.log(token)
-      //   let decoded = jwt.verify(token, process.env.JWT_SECRET)
-      //   console.log(decoded)
-      // }
+      if(operationName !== "login" && operationName !== "signup") {
+        let decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+        console.log(decodedToken)
+        let currentTime = Math.floor(Date.now() / 1000)
+        let aDay = 24*60*60
+        if(decodedToken.iat + aDay < currentTime) {
+          console.log("token expired")
+          throw new GraphQLError("token has expired", {
+            extensions: {
+              code: "Token Expired",
+            }
+          })
+        }
+      }
 
       return { token: req.headers.authorization, db, loaders, openai, placesApiKey: process.env.GOOGLE_API_KEY }
     },
