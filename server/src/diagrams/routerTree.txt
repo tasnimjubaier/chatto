@@ -1,0 +1,21 @@
+
+
+"/"
+    "home"
+    "feed/:feedId"
+    
+    "reels"
+    "reels/:reelId"
+    
+    "users"
+        "/:userId"
+    
+    "chats"
+    "m/:chatId"
+    
+    "explore"
+        "/:placeId"
+    "e/:placeId"
+
+    "events"
+        "/:eventId"
