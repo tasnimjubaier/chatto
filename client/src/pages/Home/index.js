@@ -7,20 +7,20 @@ import NavigationPanel from '../../components/NavigationPanel'
 import { verifyToken } from '../../service/restService'
 
 
-
 const Home = () => {
-	// const [user, setUser] = useState(null)
-  const user = useSelector(state => state.user?.user)
+	const [user, setUser] = useState(null)
+  // const user = useSelector(state => state.user?.user)
   const navigate = useNavigate()
 
   useEffect(()=>{
     let token = localStorage.getItem('token')
-    // setUser(token)
+
+    if(token) {
+      const res = verifyToken(token)
+      setUser(res)
+    }
   }, [])
 
-  const handle = (e) => {
-    verifyToken("1234")
-  }
 
   if(user == null) {
     
@@ -34,7 +34,6 @@ const Home = () => {
   return (
     <div className={styles["box-wrapper"]}>
 	    <NavigationPanel onSelectOption={handleSelect}/>
-      <button onClick={handle}> verify token</button>
 		  <Outlet />
     </div>
   )

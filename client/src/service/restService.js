@@ -9,9 +9,10 @@ export const verifyToken = async (token) => {
 
     try {    
         const res = await axios.post(url, {token})
-        console.log(res)
+        if(res.status == 200) return res.data
+        return null
     }
     catch (error){
-        console.log(error)
+        return null
     }
 }
