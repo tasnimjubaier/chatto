@@ -294,7 +294,22 @@ app.use(
   }),
 );
 
-
+app.use("/verifyToken",
+  cors<cors.CorsRequest>(),
+  bodyParser.json(),
+  async (req, res) => {
+    const token = req.body.token 
+    let decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+    console.log(decodedToken)
+    let currentTime = Math.floor(Date.now() / 1000)
+    let aDay = 24*60*60
+    if(decodedToken.iat + aDay < currentTime) {
+      console.log("token expired")
+      res.status(400)
+      res.send("token expired")
+    }
+    res.send("token is valid")
+})
 
 const PORT = 4000;
 httpServer.listen(PORT, () => {
