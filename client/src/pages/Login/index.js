@@ -3,8 +3,7 @@ import { useLazyQuery } from '@apollo/client';
 import { useDispatch } from 'react-redux';
 import { login as saveUser } from '../../features/user/userSlice';
 
-import './index.css'
-import { LOG_IN } from '../../utils/queries';
+import styles from './index.module.css'
 import { Navigate, useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -72,26 +71,26 @@ const Login = () => {
   }
 
   return (
-    <div className='login-wrapper'>
-      <div className='left-panel'>
-        <p className='title'> Login </p>
-        <button className='google'> Signin with Google </button>
-        <button className='linkedin'> Signin with Linkedin </button>
+    <div className={styles['login-wrapper']}>
+      <div className={styles['left-panel']}>
+        <p className={styles['title']}> Login </p>
+        <button className={styles['google']}> Signin with Google </button>
+        <button className={styles['linkedin']}> Signin with Linkedin </button>
 
-        <div className='input-div name-div'>
+        <div className={`${styles['input-div']} ${styles['name-div']}`}>
           <label for="name">Name</label>
-          <input className='name' type='text' id='name' placeholder='name' 
+          <input className={styles['name']} type='text' id='name' placeholder='name' 
             onChange={ e => { setName(e.target.value); setMessage(""); setNameMessage(""); setPasswordMessage("") } } />
           <small style={{color: 'red'}}>{nameMessage}</small>
         </div>
-        <div className='input-div password-div'>
+        <div className={`${styles['input-div']} ${styles['password-div']}`}>
           <label for="password">Password</label>
-          <input className='password' type='password' id='password' placeholder='password' onKeyDown={handleOnKeyDown}
+          <input className={styles['password']} type='password' id='password' placeholder='password' onKeyDown={handleOnKeyDown}
             onChange={ e => { setPassword(e.target.value); setMessage(""); setNameMessage(""); setPasswordMessage("") } } />
           <small style={{color: 'red'}}>{passwordMessage}</small>
         </div>
 
-        <button className='login-button' disabled={loading} onClick={handleLogin}>Login</button>
+        <button className={styles['login-button']} disabled={loading} onClick={handleLogin}>Login</button>
         <small style={{color: 'red'}}>{message}</small>
         <p>Don't have an account?  
           <span onClick={handleSignup}>
@@ -99,7 +98,7 @@ const Login = () => {
           </span>
         </p>
       </div>
-      <div className='right-panel'>
+      <div className={styles['right-panel']}>
           {loading && "loading"}
           {error && "error"}
           {data && "data"}
