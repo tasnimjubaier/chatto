@@ -3,6 +3,7 @@
 export default `#graphql
   type Query {
     user(username: String!) : User
+    verifyUser(token: String!): User
     users: [User!]
     messages(from: String! to: String!): [Message!]
     login(username: String! password: String!) : User

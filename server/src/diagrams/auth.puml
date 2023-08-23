@@ -14,6 +14,19 @@
     end
 
 @enduml
+
+
+
+' url is hit
+' client search in local storage for token
+' if token found, it tries to verify that
+' if not found, client prompts to login page
+' if token gets verified, home is loaded
+' if not, login is prompted
+
+
+
+
 	' note right
 		
 	' end note

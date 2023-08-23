@@ -148,3 +148,13 @@ export const GET_PLACE_DETAILS_QUERY = gql`
 		getPlaceDetail(placeIds: $placeIds, fields: $fields)
 	}
 `
+
+export const VERIFY_USER = gql`
+	query verifyUser($token: String!) {
+		verifyUser(token: $token) {
+			username
+			imageUrl
+			token
+		}
+	}
+`

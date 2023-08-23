@@ -22,6 +22,27 @@ export const QueryResolver = {
 
 		return cursor 
 	},
+	verifyUser: async (_, {token}, {db}) => {
+		const User = db.collection("users")
+
+		try {
+			let decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+			console.log(decodedToken)
+			let currentTime = Math.floor(Date.now() / 1000)
+			let aDay = 24*60*60
+			if(decodedToken.iat + aDay < currentTime) {
+				console.log("token expired")
+				return null
+			}
+			else {
+				const cursor = await User.findOne({username: decodedToken.username}) as any
+				return cursor
+			}
+		} catch (error) {
+			console.log(error)
+			return null 
+		}
+	},
 	messages: async (_, {from, to}, {db}) => {
 		const Message = db.collection("messages")
 

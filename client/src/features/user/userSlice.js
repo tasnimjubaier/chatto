@@ -32,7 +32,7 @@ const slice = createSlice({
 	reducers: {
 		login: (state, action) => { //{ username, imageUrl, token, description }
 			const { username, imageUrl, token, description } = action.payload
-			localStorage.setItem('token', token)
+			if(token) localStorage.setItem('token', token)
 
 			state.user = {
 				...state.user,

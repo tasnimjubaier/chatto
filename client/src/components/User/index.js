@@ -4,7 +4,7 @@ import styles from './index.module.css'
 
 const User = () => {
   return (
-    <div>Event</div>
+    <div>User</div>
   )
 }
 

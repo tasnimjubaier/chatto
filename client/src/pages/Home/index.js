@@ -8,18 +8,10 @@ import { verifyToken } from '../../service/restService'
 
 
 const Home = () => {
-	const [user, setUser] = useState(null)
-  // const user = useSelector(state => state.user?.user)
+	// const [user, setUser] = useState(null)
+  const user = useSelector(state => state.user?.user)
   const navigate = useNavigate()
 
-  useEffect(()=>{
-    let token = localStorage.getItem('token')
-
-    if(token) {
-      const res = verifyToken(token)
-      setUser(res)
-    }
-  }, [])
 
 
   if(user == null) {

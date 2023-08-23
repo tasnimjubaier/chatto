@@ -4,7 +4,9 @@ import { useDispatch } from 'react-redux';
 import { login as saveUser } from '../../features/user/userSlice';
 
 import styles from './index.module.css'
+import { LOG_IN, VERIFY_USER } from '../../utils/queries';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { verifyToken } from '../../service/restService';
 
 const Login = () => {
   const [name, setName] = useState("")
@@ -18,9 +20,43 @@ const Login = () => {
     fetchPolicy: "cache-and-network", // Used for first execution
     nextFetchPolicy: 'cache-first',
   }) 
+  const [verifyUser, { data: verifyData, error: verifyError }] = useLazyQuery(VERIFY_USER)
+
   const dispatch = useDispatch()
 
   const navigate = useNavigate()
+
+
+  useEffect(() => {
+
+    const call = async () => {
+      const token = localStorage.getItem('token')
+      if(token != null) {
+        setMessage("verifying user")
+        verifyUser({
+          variables: {
+            token
+          }
+        })
+      }
+    }
+    call()
+  }, [])
+
+  
+  useEffect(() => {
+    console.log({verifyData})
+    setMessage("")
+    if(verifyData && verifyData.verifyUser) {
+      dispatch(saveUser({
+        username: verifyData.verifyUser.username, 
+        imageUrl: verifyData.verifyUser.imageUrl
+      }))
+      navigate("/")
+    }
+  }, [verifyData, verifyError])
+
+
 
   useEffect(() => {
   }, [called, networkStatus])
