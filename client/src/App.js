@@ -30,15 +30,14 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          
-          <Route path="/" element={<Home />}>
+          <Route path="/" element={<Home />} >
             <Route index element={<FeedSection />} />
             <Route path="home" element={<FeedSection />} />
             <Route path="feed/:feedId" element={<Feed />} />
             <Route path="reels" element={<ReelsSection />} />
             <Route path="reel/:reelId" element={<Reel />} />
             <Route path="users" element={<UsersSection />} >
-              <Route path="user/:userId" element={<User />} />
+              <Route path="users/:userId" element={<User />} />
             </Route>
             <Route path="chats" element={<ChatsSection />} />
             <Route path="m/:chatId" element={<Chat />} />
@@ -46,7 +45,7 @@ function App() {
              <Route path="explore/:placeId" element={<Place />} />
             </Route>
             <Route path="events" element={<EventsSection />} >
-              <Route path="e/:eventId" element={<Event />} />
+              <Route path="events/:eventId" element={<Event />} />
             </Route>
           </Route>
           <Route path="/login" element={<Login />} />
